@@ -1,0 +1,8 @@
+*.asv
+*.bak
+
+*ert_rtw*
+*slprj*
+*.out
+*.autosave
+*.bin
