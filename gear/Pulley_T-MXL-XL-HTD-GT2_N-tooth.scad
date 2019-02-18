@@ -21,10 +21,10 @@ use <pan.scad>
 
 // tuneable constants
 
-teeth = 190;			// Number of teeth, standard Mendel T5 belt = 8, gives Outside Diameter of 11.88mm
-profile = 14;		// 1=MXL 2=40DP 3=XL 4=H 5=T2.5 6=T5 7=T10 8=AT5 9=HTD_3mm 10=HTD_5mm 11=HTD_8mm 12=GT2_2mm 13=GT2_3mm 14=GT2_5mm
+teeth = 20;			// Number of teeth, standard Mendel T5 belt = 8, gives Outside Diameter of 11.88mm
+profile = 12;		// 1=MXL 2=40DP 3=XL 4=H 5=T2.5 6=T5 7=T10 8=AT5 9=HTD_3mm 10=HTD_5mm 11=HTD_8mm 12=GT2_2mm 13=GT2_3mm 14=GT2_5mm
 
-motor_shaft = 0;	// NEMA17 motor shaft exact diameter = 5
+motor_shaft = 5.2;	// NEMA17 motor shaft exact diameter = 5
 m3_dia = 0;		// 3mm hole diameter
 m3_nut_hex = 0;		// 1 for hex, 0 for square nut
 m3_nut_flats = 5.7;	// normal M3 hex nut exact width = 5.5
@@ -206,13 +206,13 @@ module pulley( belt_type , pulley_OD , tooth_depth , tooth_width )
 				rotate([0,0,22.5])cylinder(r=m3_dia/2,h=pulley_b_dia/2+1,$fn=8);
 			}
 		}}
-            
+            /*
         pan();
      translate(v = [-500, 0, -500])
      cube(size = [1000,1000,1000]);
      translate(v = [-500, -500, -500])
      cube(size = [500,1000,1000]);
-        
+        */
 	 }
  }
 	
