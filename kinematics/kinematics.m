@@ -6,10 +6,8 @@ mount_height = 2;
 post_height = 18;
 post_radius = 18+1/3;
 
-
 dish_radius = 6;
 dish_height = 2;
-
 
 %% LOCATIONS [x, y, z]
 
