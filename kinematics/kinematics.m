@@ -79,7 +79,9 @@ for ii = 1:numel(x_path)
     title(['L1 = ' num2str(d(1),'%2.3f') '     L2 = ' num2str(d(2),'%2.3f') '     L3 = ' num2str(d(3),'%2.3f')]);
     m(ii) = getframe(f);
     for jj = 1:4
-        delete(handles(jj));
+        if ii ~= numel(x_path)
+            delete(handles(jj));
+        end
     end
 end
 
