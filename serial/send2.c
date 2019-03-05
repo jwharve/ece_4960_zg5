@@ -27,15 +27,22 @@ int main(int argc, char * argv[])
 	test.S1 = (int)atoi(argv[2]);
 	test.S2 = (int)atoi(argv[3]);
 	test.R = (int)atoi(argv[4]);
-	test.E = argv[5][0];
-	
+	if (argv[5][0] == '0')
+	{
+		test.E = 0;
+	}
+	else
+	{
+		test.E = 1;
+	}
+
 	printf("S0 = %d\n",test.S0);
 	printf("S1 = %d\n",test.S1);
 	printf("S2 = %d\n",test.S2);
 	printf("R = %d\n",test.R);
 	printf("E = %d\n",test.E);
-	
-	rover = (char *)&num;
+
+	rover = (char *)&test;
 
 	for (i = 0; i < sizeof(struct packet); i++)
 	{
