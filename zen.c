@@ -23,15 +23,31 @@ struct gLine/* packed */
 	int theta;
 }
 
+struct packet
+{
+	int S0;
+	int S1;
+	int S2;
+	int R;
+	char E;
+} __attribute__((packed));
+
+// generate movements for swapping tools
 void swapTool(struct gLine prev, struct gLine curr);
 
-void move(struct gLine prev, struct gLine curr, float prev_z, float curr_z);
+// generate and send discrete points to tiva
+void move(struct gLine prev, struct gLine curr, float prev_z, float curr_z, unsigned char E);
+
+// calc number of steps needed for each move
+unsigned long numSteps(struct gLine prev, struct gLine curr);
 
 float * interp(float one, float two, unsigned long num);
 
 int dist2steps(float dist);
 
 int rot2steps(float rot);
+
+void send(x, y, z, theta, e);
 
 int main(void)
 {
@@ -69,15 +85,17 @@ int main(void)
 			z[(num+1)%2] = MOVE_HEIGHT;
 		}
 		
-		move(line+num%2, line+(num+1)%2, z[num%2], z[(num+1)%2]);
+		move(line+num%2, line+(num+1)%2, z[num%2], z[(num+1)%2], 1);
 		
 		num++;
 	}
 
 }
 
-void move(struct gLine prev, struct gLine curr, float prev_z, float curr_z)
+void move(struct gLine prev, struct gLine curr, float prev_z, float curr_z, unsigned char E)
 {
+	// calc num_steps
+	
 	// interp x
 	
 	// interp y
