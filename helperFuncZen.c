@@ -31,10 +31,11 @@ float * interp(float one, float two, unsigned long num) {
 	float increment;
 	int i;
 
-	pointsArr[0]=one;
+	
 	pointsArr[num]=two;
 
 	increment = (two-one)/num;
+	pointsArr[0] = one+increment;
 	for (i= 1;i<num-1;i++) {
 
 		pointsArr[i] = pointsArr[i-1]+increment;
