@@ -1,8 +1,6 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <math.h>
 #include "util.h"
 #include "move.h"
+#include "def.h"
 
 int main(void)
 {

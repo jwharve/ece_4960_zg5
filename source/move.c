@@ -1,3 +1,5 @@
+#include "move.h"
+
 void move(struct gLine * prev, struct gLine * curr, float prev_z, float curr_z, unsigned char E)
 {
 	struct packet = current;

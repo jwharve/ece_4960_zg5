@@ -1,3 +1,7 @@
+#ifndef UTIL_H
+#define UTIL_H
+#include "def.h"
+
 void printPacket(struct packet p);
 
 void initGlobal(void);
@@ -15,3 +19,5 @@ float distance(struct point one, struct point two);
 int dist2steps(float dist);
 
 int rot2steps(float rot);
+
+#endif

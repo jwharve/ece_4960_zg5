@@ -1,3 +1,5 @@
+#include "util.h"
+
 void printPacket(struct packet p)
 {
 	printf("S0 = %5d\tS1 = %5d\tS2 = %5d\tR = %5d\tE  =     %c\n", p.S0, p.S1, p.S2, p.R, p.E);

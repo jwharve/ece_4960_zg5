@@ -1,3 +1,10 @@
+#ifndef DEF_H
+#define DEF_H
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <math.h>
+
 #define MOVE '1' /* move type */
 #define DRAW '2' /* move type */
 #define CLIEAR '1' /* tool type */
@@ -54,3 +61,5 @@ struct packet
 	int R;
 	char E;
 } __attribute__((packed));
+
+#endif
