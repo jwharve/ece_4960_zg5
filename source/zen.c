@@ -1,3 +1,7 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <math.h>
+
 #define MOVE '1' /* move type */
 #define DRAW '2' /* move type */
 #define CLIEAR '1' /* tool type */
@@ -56,10 +60,10 @@ struct packet
 } __attribute__((packed));
 
 // generate movements for swapping tools
-void swapTool(struct gLine prev, struct gLine curr);
+void swapTool(struct gLine * prev, struct gLine * curr);
 
 // generate and send discrete points to tiva
-void move(struct gLine prev, struct gLine curr, float prev_z, float curr_z, unsigned char E);
+void move(struct gLine * prev, struct gLine * curr, float prev_z, float curr_z, unsigned char E);
 
 // calc number of steps needed for each move
 unsigned long numSteps(struct gLine prev, struct gLine curr);
@@ -138,7 +142,7 @@ int main(void)
 
 }
 
-void move(struct gLine prev, struct gLine curr, float prev_z, float curr_z, unsigned char E)
+void move(struct gLine * prev, struct gLine * curr, float prev_z, float curr_z, unsigned char E)
 {
 	struct packet = current;
 	int num_steps; 
