@@ -314,7 +314,8 @@ int readLine(FILE *fptr, struct *gLine)
 
 }
 
-float * interp(float one, float two, unsigned long num) {
+float * interp(float one, float two, unsigned long num) 
+{
 
 	float pointsArr[num];
 
@@ -333,7 +334,8 @@ float * interp(float one, float two, unsigned long num) {
 	}
 }
 
-int dist2steps(float dist) {
+int dist2steps(float dist) 
+{
 
 	//circum needs to be measures
 	int steps;
@@ -342,7 +344,8 @@ int dist2steps(float dist) {
 	return steps;
 }
 
-int rot2steps(float rot) {
+int rot2steps(float rot) 
+{
 
 
 	int steps;
