@@ -1,14 +1,9 @@
-/*
-Still need to add electromagnet logic
-need to think about converting data types (from value read to floats)
-*/
-
-#define MOVE 1 /* move type */
-#define DRAW 2 /* move type */
-#define CLIEAR 1 /* tool type */
-#define BLUNT 2 /* tool type */
-#define FINE 3 /* tool type */
-#define RAKE 4 /* tool type */
+#define MOVE '1' /* move type */
+#define DRAW '2' /* move type */
+#define CLIEAR '1' /* tool type */
+#define BLUNT '2' /* tool type */
+#define FINE '3' /* tool type */
+#define RAKE '4' /* tool type */
 
 #define DRAW_HEIGHT 5 /* height in inches for drawing */
 #define MOVE_HEIGHT 6 /* height in inches for moving */
@@ -39,9 +34,9 @@ struct gLine/* packed */
 {
 	unsigned char moveType;
 	unsigned char tool;
-	int x;
-	int y;
-	int theta;
+	float x;
+	float y;
+	float theta;
 };
 
 struct point
@@ -122,6 +117,7 @@ int main(void)
 			if (line[(num+1)%2].moveType != MOVE)
 			{
 				printf("Error in gcode file with move type.\n");
+				exit(0);
 			}
 			swapTool(line+num%2,line+(num+1)%2);
 		}
@@ -158,12 +154,19 @@ void move(struct gLine prev, struct gLine curr, float prev_z, float curr_z, unsi
 	z = (float * )malloc(num_steps*sizeof(float));
 	theta = (float * )malloc(num_steps*sizeof(float));
 	
+	x = interp(prev.x,curr.x,num_steps);
+	y = interp(prev.y,curr.y,num_steps);
+	z = interp(prev_z,curr_z,num_steps);
+	theta = interp(prev.theta,curr.theta,num_steps);
+	
 	for (i = 0; i < numPoints; i++)
 	{
 		current = calcStep(dist2steps(x[i]), dist2steps(y[i]), dist2steps(z[i]), rot2steps(theta[i]), 1);
 		printPacket(current);
 		sendPacket(current);
 	}
+	
+	free(x); free(y); free(z); free(theta);
 }
 
 int numSteps(struct gLine prev, struct gLine curr)
@@ -269,7 +272,7 @@ void initGlobal(void)
 void swapTool(struct gLine prev, struct gLine curr) 
 {
 
-
+	return;
 
 	//grab tool initially
 	//go to prev tool position and release tool
@@ -299,12 +302,34 @@ int readLine(FILE *fptr, struct *gLine)
 	size_t lineLen = 0;
 	char *line = NULL;
 	int readSuccess = 0;
-
+	char xString[5];
+	char yString[5];
+	float x = 0;
+	float y = 0;
+	
 	readSuccess = getline(&line,&lineLen,fptr);
 
 	if (readSuccess != -1) 
 	{
-		sscanf(line, "%c %c %d %d %d", gLine->moveType, gLine->tool, gLine->x, gLine->y, gLine->theta); 
+		sscanf(line, "%c %c %s %s %f", gLine->moveType, gLine->tool, xString, yString, gLine->theta);
+		x += (float)(xString[1]-'0')*1;
+		x += (float)(xString[2]-'0')/10;
+		x += (float)(xString[3]-'0')/100;
+		if (xString[1] == '-')
+			x = -x;
+		else
+			x += (float)(xString[0]-'0')*10;
+		
+		y += (float)(yString[1]-'0')*1;
+		y += (float)(yString[2]-'0')/10;
+		y += (float)(yString[3]-'0')/100;
+		if (yString[1] == '-')
+			y = -y;
+		else
+			y += (float)(yString[0]-'0')*10;
+		
+		gLine.x = x;
+		gLine.y = y;
 	}
 	else 
 	{
