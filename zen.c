@@ -213,11 +213,26 @@ void initGlobal(void)
 void swapTool(struct gLine prev, struct gLine curr) 
 {
 
-	//need to recognize
+
 
 	//grab tool initially
 	//go to prev tool position and release tool
 	//go to new tool position from old tool position and grab new tool
+
+	if (prev == NULL) 
+	{
+		//initial tool setup
+		//go to toolbed and pick up tool
+
+	} else 
+	{
+
+		//after inital tool setup
+		//go to prev.tool position and drop it
+		//go to new tool position from old tool position and grab new tool
+
+		
+	}
 
 
 }
