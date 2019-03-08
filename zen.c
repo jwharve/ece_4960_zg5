@@ -3,7 +3,6 @@ Still need to add electromagnet logic
 need to think about converting data types (from value read to floats)
 */
 
-
 #define MOVE 1
 #define DRAW 2
 #define CLIEAR 1
@@ -14,6 +13,16 @@ need to think about converting data types (from value read to floats)
 #define DRAW_HEIGHT 5
 #define MOVE_HEIGHT 6
 
+
+#define MOUNT_RADIUS 0.5
+#define MOUNT_HEIGHT 2
+#define POST_HEIGHT 18
+#define POST_RADIUS 18.33333333
+#define DISH_RADIUS 6
+#define DISH_HEIGHT 2
+
+#define DTR 0.01745329251   /* (pi/180) */
+
 struct gLine/* packed */
 {
 	unsigned char moveType;
@@ -21,7 +30,14 @@ struct gLine/* packed */
 	int x;
 	int y;
 	int theta;
-}
+};
+
+struct point
+{
+	float x;
+	float y;
+	float z;
+} h0, h1, h2, post0, post1, post2;
 
 struct packet
 {
@@ -49,6 +65,10 @@ int rot2steps(float rot);
 
 void send(x, y, z, theta, e);
 
+int readLine(FILE * fptr,struct gLine * curr);
+
+void initGlobal(void);
+
 int main(void)
 {
 
@@ -61,6 +81,8 @@ int main(void)
 	
 	readLine(fptr,line);
 	swapTool(NULL,line);
+	
+	initGlobal();
 	
 	while (!feof(fptr))
 	{
@@ -94,6 +116,7 @@ int main(void)
 
 void move(struct gLine prev, struct gLine curr, float prev_z, float curr_z, unsigned char E)
 {
+	struct packet = current;
 	// calc num_steps
 	
 	// interp x
@@ -106,6 +129,63 @@ void move(struct gLine prev, struct gLine curr, float prev_z, float curr_z, unsi
 	
 	for (i = 0; i < numPoints; i++)
 	{
-		send(dist2steps(x[i]), dist2steps(y[i]), dist2steps(z[i]), rot2steps(theta[i]));
+		current = calcStep(dist2steps(x[i]), dist2steps(y[i]), dist2steps(z[i]), rot2steps(theta[i]), 1);
+		sendPacket(current);
 	}
+}
+
+struct packet calcStep(x, y, z, theta, char E)
+{
+	struct point draw;
+	struct packet ret;
+	draw.x = x;
+	draw.y = y;
+	draw.z = z;
+	
+	ret.S0 = dist2steps(addP(draw,h0),post0);
+	ret.S1 = dist2steps(addP(draw,h1),post1);
+	ret.S2 = dist2steps(addP(draw,h2),post2);
+	ret.R = rot2steps(theta);
+	ret.E = 1;
+}
+
+float addP(struct point one, struct point two)
+{
+	struct point ret;
+	ret.x = one.x + two.x;
+	ret.y = one.y + two.y;
+	ret.z = one.z + two.z;
+	return ret;
+}
+
+float distance(struct point one, struct point two)
+{
+	return sqrt(pow(two.x-one.x,2) + pow(two.y-one.y,2) + pow(two.z-one.z,2));
+}
+
+void initGlobal(void)
+{
+	h0.x = 0;
+	h0.y = -MOUNT_RADIUS;
+	h0.z = MOUNT_HEIGHT;
+	
+	h1.x = MOUNT_RADIUS*sin(60*DTR);
+	h1.y = MOUNT_RADIUS*cos(60*DTR);
+	h1.z = MOUNT_HEIGHT;
+	
+	h2.x = -MOUNT_RADIUS*sin(60*DTR);
+	h2.y = MOUNT_RADIUS*cos(60*DTR);
+	h2.z = MOUNT_HEIGHT;
+	
+	post0.x = 0;
+	post0.y = -POST_RADIUS;
+	post0.z = POST_HEIGHT;
+	
+	post1.x = POST_RADIUS*sin(60*DTR);
+	post1.y = POST_RADIUS*cos(60*DTR);
+	post1.z = POST_HEIGHT;
+	
+	post2.x = -POST_RADIUS*sin(60*DTR);
+	post2.y = POST_RADIUS*cos(60*DTR);
+	post2.z = POST_HEIGHT;
 }
