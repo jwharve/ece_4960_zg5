@@ -43,12 +43,13 @@ struct point addP(struct point one, struct point two)
 
 float distance(struct point one, struct point two)
 {
-	return sqrt(pow(two.x-one.x,2) + pow(two.y-one.y,2) + pow(two.z-one.z,2));
+	float ret;
+	ret = sqrt(pow(two.x-one.x,2) + pow(two.y-one.y,2) + pow(two.z-one.z,2));
+	return ret;
 }
 
 int readLine(FILE * fptr, struct * gLine)
 {
-
 	size_t lineLen = 0;
 	char * line = NULL;
 	int readSuccess = 0;
@@ -66,17 +67,25 @@ int readLine(FILE * fptr, struct * gLine)
 		x += (float)(xString[2]-'0')/10;
 		x += (float)(xString[3]-'0')/100;
 		if (xString[1] == '-')
+		{
 			x = -x;
+		}
 		else
+		{
 			x += (float)(xString[0]-'0')*10;
+		}
 		
 		y += (float)(yString[1]-'0')*1;
 		y += (float)(yString[2]-'0')/10;
 		y += (float)(yString[3]-'0')/100;
 		if (yString[1] == '-')
+		{
 			y = -y;
+		}
 		else
+		{
 			y += (float)(yString[0]-'0')*10;
+		}
 		
 		gLine.x = x;
 		gLine.y = y;
