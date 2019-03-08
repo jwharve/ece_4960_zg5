@@ -16,6 +16,14 @@ need to think about converting data types (from value read to floats)
 #define DIST_WEIGHT 1
 #define ANGLE_WEIGHT 1
 
+#define TOOL1X 10
+#define TOOL1Y 10
+#define TOOL2X 20
+#define TOOL2Y 20
+#define TOOL3X 30
+#define TOOL3Y 30
+#define TOOL4X 40
+#define TOOL4Y 40
 
 #define MOUNT_RADIUS 0.5
 #define MOUNT_HEIGHT 2
@@ -81,17 +89,28 @@ int main(void)
 	FILE * fptr;
 	unsigned long num = 0;
 	float z[2];
-	
+	int readSuccess;
 	fptr = fopen("file.gcode","rb");
 	
-	readLine(fptr,line);
+	readSuccess = readLine(fptr,line);
+	if (readSuccess != 0) 
+	{
+		printf("first line didnt read correctly\n");
+		exit(0);
+	}
+
 	swapTool(NULL,line);
 	
 	initGlobal();
 	
 	while (!feof(fptr))
 	{
-		readLine(fptr,line + num % 2);
+		readSuccess = readLine(fptr,line + num % 2);
+		if (readSuccess != 0) 
+		{
+			printf("line didnt read correctly\n");
+			exit(0);
+		}
 		
 		// Check for tool swap
 		if (line[num%2].tool != line[(num+1)%2].tool)
@@ -236,4 +255,78 @@ void initGlobal(void)
 	post2.x = -POST_RADIUS*sin(60*DTR);
 	post2.y = POST_RADIUS*cos(60*DTR);
 	post2.z = POST_HEIGHT;
+}
+
+
+void swapTool(struct gLine prev, struct gLine curr) 
+{
+
+	//need to recognize
+
+	//grab tool initially
+	//go to prev tool position and release tool
+	//go to new tool position from old tool position and grab new tool
+
+
+}
+
+int readLine(FILE *fptr, struct *gLine) 
+{
+
+	size_t lineLen = 0;
+	char *line = NULL;
+	int readSuccess = 0;
+
+	readSuccess = getline(&line,&lineLen,fptr);
+
+	if (readSuccess != -1) 
+	{
+		sscanf(line, "%c %c %d %d %d", gLine->moveType, gLine->tool, gLine->x, gLine->y, gLine->theta); 
+	}
+	else 
+	{
+		return -1;
+	}
+	return 0;
+
+}
+
+float * interp(float one, float two, unsigned long num) {
+
+	float pointsArr[num];
+
+	float increment;
+	int i;
+
+	
+	pointsArr[num]=two;
+
+	increment = (two-one)/num;
+	pointsArr[0] = one+increment;
+	for (i= 1;i<num-1;i++) {
+
+		pointsArr[i] = pointsArr[i-1]+increment;
+	}
+
+
+}
+
+int dist2steps(float dist) {
+
+	//circum needs to be measures
+	int steps;
+	int circum = 0/*??*/;
+
+	steps = dist/circum * 200;
+	return steps;
+}
+
+int rot2steps(float rot) {
+
+
+	int steps;
+
+	steps = rot * (200/360);
+
+	return steps;
 }
