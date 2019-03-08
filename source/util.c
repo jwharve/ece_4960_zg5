@@ -10,29 +10,29 @@ void initGlobal(void)
 	h0.x = 0;
 	h0.y = -MOUNT_RADIUS;
 	h0.z = MOUNT_HEIGHT;
-	
+
 	h1.x = MOUNT_RADIUS*sin(60*DTR);
 	h1.y = MOUNT_RADIUS*cos(60*DTR);
 	h1.z = MOUNT_HEIGHT;
-	
+
 	h2.x = -MOUNT_RADIUS*sin(60*DTR);
 	h2.y = MOUNT_RADIUS*cos(60*DTR);
 	h2.z = MOUNT_HEIGHT;
-	
+
 	post0.x = 0;
 	post0.y = -POST_RADIUS;
 	post0.z = POST_HEIGHT;
-	
+
 	post1.x = POST_RADIUS*sin(60*DTR);
 	post1.y = POST_RADIUS*cos(60*DTR);
 	post1.z = POST_HEIGHT;
-	
+
 	post2.x = -POST_RADIUS*sin(60*DTR);
 	post2.y = POST_RADIUS*cos(60*DTR);
 	post2.z = POST_HEIGHT;
 }
 
-float addP(struct point one, struct point two)
+struct point addP(struct point one, struct point two)
 {
 	struct point ret;
 	ret.x = one.x + two.x;
@@ -46,11 +46,11 @@ float distance(struct point one, struct point two)
 	return sqrt(pow(two.x-one.x,2) + pow(two.y-one.y,2) + pow(two.z-one.z,2));
 }
 
-int readLine(FILE *fptr, struct *gLine) 
+int readLine(FILE * fptr, struct * gLine)
 {
 
 	size_t lineLen = 0;
-	char *line = NULL;
+	char * line = NULL;
 	int readSuccess = 0;
 	char xString[5];
 	char yString[5];

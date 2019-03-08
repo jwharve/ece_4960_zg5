@@ -12,7 +12,7 @@ void send(float x, float y, float z, float theta, char e);
 
 float * interp(float one, float two, unsigned long num);
 
-float addP(struct point one, struct point two);
+struct point addP(struct point one, struct point two);
 
 float distance(struct point one, struct point two);
 
