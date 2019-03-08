@@ -13,6 +13,9 @@ need to think about converting data types (from value read to floats)
 #define DRAW_HEIGHT 5
 #define MOVE_HEIGHT 6
 
+#define DIST_WEIGHT 1
+#define ANGLE_WEIGHT 1
+
 #define TOOL1X 10
 #define TOOL1Y 10
 #define TOOL2X 20
@@ -76,6 +79,8 @@ void send(x, y, z, theta, e);
 int readLine(FILE * fptr,struct gLine * curr);
 
 void initGlobal(void);
+
+struct packet calcStep(float x, float y, float z, float theta, char E);
 
 int main(void)
 {
@@ -153,7 +158,48 @@ void move(struct gLine prev, struct gLine curr, float prev_z, float curr_z, unsi
 	}
 }
 
-struct packet calcStep(x, y, z, theta, char E)
+int numSteps(struct gLine prev, struct gLine curr)
+{
+	struct point one, two;
+	float dist;
+	float angle;
+	
+	one.x = prev.x;
+	one.y = prev.y;
+	if (prev.moveType == MOVE)
+	{
+		one.z = MOVE_HEIGHT;
+	}
+	else
+	{
+		one.z = DRAW_HEIGHT;
+	}
+	
+	two.x = curr.x;
+	two.y = curr.y;
+	if (curr.moveType == MOVE)
+	{
+		two.z = MOVE_HEIGHT;
+	}
+	else
+	{
+		two.z = DRAW_HEIGHT;
+	}
+	
+	dist = distance(one,two);
+	angle = fabsf(curr.theta - prev.theta);
+	
+	if (dist*DIST_WEIGHT > angle*ANGLE_WEIGHT)
+	{
+		return (int) dist*DIST_WEIGHT;
+	}
+	else
+	{
+		return (int) angle*ANGLE_WEIGHT;
+	}
+}
+
+struct packet calcStep(float x, float y, float z, float theta, char E)
 {
 	struct point draw;
 	struct packet ret;
@@ -161,11 +207,13 @@ struct packet calcStep(x, y, z, theta, char E)
 	draw.y = y;
 	draw.z = z;
 	
-	ret.S0 = dist2steps(addP(draw,h0),post0);
-	ret.S1 = dist2steps(addP(draw,h1),post1);
-	ret.S2 = dist2steps(addP(draw,h2),post2);
+	ret.S0 = dist2steps(dist(addP(draw,h0),post0));
+	ret.S1 = dist2steps(dist(addP(draw,h1),post1));
+	ret.S2 = dist2steps(dist(addP(draw,h2),post2));
 	ret.R = rot2steps(theta);
-	ret.E = 1;
+	ret.E = E;
+	
+	return ret;
 }
 
 float addP(struct point one, struct point two)
