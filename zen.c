@@ -3,19 +3,20 @@ Still need to add electromagnet logic
 need to think about converting data types (from value read to floats)
 */
 
-#define MOVE 1
-#define DRAW 2
-#define CLIEAR 1
-#define BLUNT 2
-#define FINE 3
-#define RAKE 4
+#define MOVE 1 /* move type */
+#define DRAW 2 /* move type */
+#define CLIEAR 1 /* tool type */
+#define BLUNT 2 /* tool type */
+#define FINE 3 /* tool type */
+#define RAKE 4 /* tool type */
 
-#define DRAW_HEIGHT 5
-#define MOVE_HEIGHT 6
+#define DRAW_HEIGHT 5 /* height in inches for drawing */
+#define MOVE_HEIGHT 6 /* height in inches for moving */
 
-#define DIST_WEIGHT 1
-#define ANGLE_WEIGHT 1
+#define DIST_WEIGHT 1 /* scale factor for 1 inch distance to number of steps */
+#define ANGLE_WEIGHT 1 /* scale factor for 1 degree rotation to number of steps */
 
+// Tool Locations
 #define TOOL1X 10
 #define TOOL1Y 10
 #define TOOL2X 20
@@ -25,14 +26,14 @@ need to think about converting data types (from value read to floats)
 #define TOOL4X 40
 #define TOOL4Y 40
 
-#define MOUNT_RADIUS 0.5
-#define MOUNT_HEIGHT 2
-#define POST_HEIGHT 18
-#define POST_RADIUS 18.33333333
-#define DISH_RADIUS 6
-#define DISH_HEIGHT 2
+#define MOUNT_RADIUS 0.5 /* Radius of holes on mount */
+#define MOUNT_HEIGHT 2 /* Height from tool tip to mount holes on mount */
+#define POST_HEIGHT 18 /* Height of hole on post */
+#define POST_RADIUS 18.33333333 /* Radius of holes on posts */
 
-#define DTR 0.01745329251   /* (pi/180) */
+#define CIRC /* circumference of the spool */
+
+#define DTR 0.01745329251   /* degrees to radians (pi/180) */
 
 struct gLine/* packed */
 {
@@ -82,6 +83,8 @@ void initGlobal(void);
 
 struct packet calcStep(float x, float y, float z, float theta, char E);
 
+void printPacket(struct packet p);
+
 int main(void)
 {
 
@@ -90,6 +93,7 @@ int main(void)
 	unsigned long num = 0;
 	float z[2];
 	int readSuccess;
+	
 	fptr = fopen("file.gcode","rb");
 	
 	readSuccess = readLine(fptr,line);
@@ -117,7 +121,7 @@ int main(void)
 		{
 			if (line[(num+1)%2].moveType != MOVE)
 			{
-				// ERROR!
+				printf("Error in gcode file with move type.\n");
 			}
 			swapTool(line+num%2,line+(num+1)%2);
 		}
@@ -141,19 +145,23 @@ int main(void)
 void move(struct gLine prev, struct gLine curr, float prev_z, float curr_z, unsigned char E)
 {
 	struct packet = current;
-	// calc num_steps
+	int num_steps; 
+	float * x;
+	float * y;
+	float * z;
+	float * theta;
 	
-	// interp x
+	num_steps = numSteps(prev, curr)
 	
-	// interp y
-	
-	// interp z
-	
-	// interp theta
+	x = (float * )malloc(num_steps*sizeof(float));
+	y = (float * )malloc(num_steps*sizeof(float));
+	z = (float * )malloc(num_steps*sizeof(float));
+	theta = (float * )malloc(num_steps*sizeof(float));
 	
 	for (i = 0; i < numPoints; i++)
 	{
 		current = calcStep(dist2steps(x[i]), dist2steps(y[i]), dist2steps(z[i]), rot2steps(theta[i]), 1);
+		printPacket(current);
 		sendPacket(current);
 	}
 }
@@ -318,21 +326,19 @@ float * interp(float one, float two, unsigned long num) {
 
 	increment = (two-one)/num;
 	pointsArr[0] = one+increment;
-	for (i= 1;i<num-1;i++) {
+	for (i= 1;i<num-1;i++)
+	{
 
 		pointsArr[i] = pointsArr[i-1]+increment;
 	}
-
-
 }
 
 int dist2steps(float dist) {
 
 	//circum needs to be measures
 	int steps;
-	int circum = 0/*??*/;
 
-	steps = dist/circum * 200;
+	steps = dist/CIRC * 200;
 	return steps;
 }
 
@@ -344,4 +350,18 @@ int rot2steps(float rot) {
 	steps = rot * (200/360);
 
 	return steps;
+}
+
+struct packet
+{
+	int S0;
+	int S1;
+	int S2;
+	int R;
+	char E;
+} __attribute__((packed));
+
+void printPacket(struct packet p)
+{
+	printf("S0 = %5d\tS1 = %5d\tS2 = %5d\tR = %5d\tE  =     %c\n", p.S0, p.S1, p.S2, p.R, p.E);
 }
