@@ -1,33 +1,35 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-int main(int argc, char *argv[]) {
+
 	
 
+
+int readLine(FILE *fptr, struct *gLine) {
+
+	
+	
 	size_t lineLen = 0;
 	char *line = NULL;
-	FILE *fp;
 	int readSuccess = 0;
-	int command,tool,xpos,ypos,ang;
-	fp = fopen(argv[1], "r");
 
-	if (fp == NULL) {
+	readSuccess = getline(&line,&lineLen,fptr);
 
-		printf("didnt open file correctly\n");
+	if (readSuccess != -1) {
 
+		sscanf(line, "%c %c %d %d %d", gLine->moveType, gLine->tool, gLine->x, gLine->y, gLine->theta);
+	} else {
+
+		return -1;
 	}
-
-	while ((readSuccess = getline(&line,&lineLen,fp)) != -1) {
 	
-
-		sscanf(line, "%d %d %d %d %d", &command, &tool, &xpos, &ypos, &ang);
-		printf("command is: %d\n",command);
-		printf("tool is: %d\n",tool);
-		printf("xpos is: %d\n",xpos);
-		printf("ypos is: %d\n",ypos);
-		printf("ang is: %d\n",ang);
-		printf("\n\n");
-	}
+	// printf("command is: %d\n",command);
+	// printf("tool is: %d\n",tool);
+	// printf("xpos is: %d\n",xpos);
+	// printf("ypos is: %d\n",ypos);
+	// printf("ang is: %d\n",ang);
+	// printf("\n\n");
+	//}
 
 	return 0;
 
