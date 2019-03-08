@@ -70,7 +70,7 @@ int dist2steps(float dist);
 
 int rot2steps(float rot);
 
-void send(x, y, z, theta, e);
+void send(float x, float y, float z, float theta, char e);
 
 int readLine(FILE * fptr,struct gLine * curr);
 
