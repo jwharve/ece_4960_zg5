@@ -3,8 +3,8 @@ CFLAGS = -Wall
 LIBS = -lwiringPi -lm
 
 TARGET = zen
-SRCS = 
-DEPS = 
+SRCS = util.c move.c
+DEPS = def.h
 
 OBJS = $(SRCS:.c=.o)
 HDRS = $(SRCS:.c=.h)

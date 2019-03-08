@@ -1,0 +1,11 @@
+int dist2steps(float dist);
+
+int rot2steps(float rot);
+
+struct packet calcStep(float x, float y, float z, float theta, char E);
+
+void swapTool(struct gLine * prev, struct gLine * curr);
+
+void move(struct gLine * prev, struct gLine * curr, float prev_z, float curr_z, unsigned char E);
+
+int numSteps(struct gLine prev, struct gLine curr);
