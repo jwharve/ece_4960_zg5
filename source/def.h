@@ -4,6 +4,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
+#include <wiringPi.h>
+#include <wiringSerial.h>
 
 #define MOVE '1' /* move type */
 #define DRAW '2' /* move type */
@@ -33,14 +35,14 @@
 #define POST_HEIGHT 18 /* Height of hole on post */
 #define POST_RADIUS 18.33333333 /* Radius of holes on posts */
 
-#define CIRC /* circumference of the spool */
+#define CIRC 1 /* circumference of the spool */
 
 #define DTR 0.01745329251   /* degrees to radians (pi/180) */
 
 struct gLine/* packed */
 {
-	unsigned char moveType;
-	unsigned char tool;
+	char moveType;
+	char tool;
 	float x;
 	float y;
 	float theta;

@@ -48,7 +48,7 @@ float distance(struct point one, struct point two)
 	return ret;
 }
 
-int readLine(FILE * fptr, struct * gLine)
+int readLine(FILE * fptr, struct gLine * curr)
 {
 	size_t lineLen = 0;
 	char * line = NULL;
@@ -57,12 +57,12 @@ int readLine(FILE * fptr, struct * gLine)
 	char yString[5];
 	float x = 0;
 	float y = 0;
-	
+
 	readSuccess = getline(&line,&lineLen,fptr);
 
-	if (readSuccess != -1) 
+	if (readSuccess != -1)
 	{
-		sscanf(line, "%c %c %s %s %f", gLine->moveType, gLine->tool, xString, yString, gLine->theta);
+		sscanf(line, "%c %c %s %s %f", &(curr->moveType), &(curr->tool), xString, yString, &(curr->theta));
 		x += (float)(xString[1]-'0')*1;
 		x += (float)(xString[2]-'0')/10;
 		x += (float)(xString[3]-'0')/100;
@@ -74,7 +74,7 @@ int readLine(FILE * fptr, struct * gLine)
 		{
 			x += (float)(xString[0]-'0')*10;
 		}
-		
+
 		y += (float)(yString[1]-'0')*1;
 		y += (float)(yString[2]-'0')/10;
 		y += (float)(yString[3]-'0')/100;
@@ -86,11 +86,11 @@ int readLine(FILE * fptr, struct * gLine)
 		{
 			y += (float)(yString[0]-'0')*10;
 		}
-		
-		gLine.x = x;
-		gLine.y = y;
+
+		curr->x = x;
+		curr->y = y;
 	}
-	else 
+	else
 	{
 		return -1;
 	}
@@ -137,4 +137,18 @@ int rot2steps(float rot)
 	steps = rot * (200/360);
 
 	return steps;
+}
+
+void sendPacket(struct packet p, int uart_port)
+{
+	unsigned char * rover;
+	int i;
+
+	rover = (unsigned char *)&p;
+
+	for (i = 0; i < sizeof(struct packet); i++)
+	{
+		serialPutchar(uart_port, rover[i]);
+		delay(3);
+	}
 }

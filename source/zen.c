@@ -9,6 +9,11 @@ int main(void)
 	unsigned long num = 0;
 	float z[2];
 	int readSuccess;
+	int uart_port;
+
+	wiringPiSetup();
+
+	uart_port = serialOpen("/dev/ttyS0",9600);
 	
 	fptr = fopen("file.gcode","rb");
 	
@@ -52,7 +57,7 @@ int main(void)
 			z[(num+1)%2] = MOVE_HEIGHT;
 		}
 		
-		move(line+num%2, line+(num+1)%2, z[num%2], z[(num+1)%2], 1);
+		move(line+num%2, line+(num+1)%2, z[num%2], z[(num+1)%2], 1, uart_port);
 		
 		num++;
 	}

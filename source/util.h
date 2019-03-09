@@ -6,7 +6,7 @@ void printPacket(struct packet p);
 
 void initGlobal(void);
 
-int readLine(FILE * fptr,struct gLine * curr);
+int readLine(FILE * fptr, struct gLine * curr);
 
 void send(float x, float y, float z, float theta, char e);
 
@@ -19,5 +19,7 @@ float distance(struct point one, struct point two);
 int dist2steps(float dist);
 
 int rot2steps(float rot);
+
+void sendPacket(struct packet p, int uart_port);
 
 #endif

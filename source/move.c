@@ -1,31 +1,33 @@
 #include "move.h"
+#include "util.h"
 
-void move(struct gLine * prev, struct gLine * curr, float prev_z, float curr_z, unsigned char E)
+void move(struct gLine * prev, struct gLine * curr, float prev_z, float curr_z, unsigned char E, int uart_port)
 {
-	struct packet = current;
-	int num_steps; 
+	struct packet current;
+	int numPoints;
 	float * x;
 	float * y;
 	float * z;
 	float * theta;
-	
-	num_steps = numSteps(prev, curr)
-	
-	x = (float * )malloc(num_steps*sizeof(float));
-	y = (float * )malloc(num_steps*sizeof(float));
-	z = (float * )malloc(num_steps*sizeof(float));
-	theta = (float * )malloc(num_steps*sizeof(float));
-	
-	x = interp(prev.x,curr.x,num_steps);
-	y = interp(prev.y,curr.y,num_steps);
-	z = interp(prev_z,curr_z,num_steps);
-	theta = interp(prev.theta,curr.theta,num_steps);
+	int i;
+
+	numPoints = numSteps(*prev, *curr);
+
+	x = (float * )malloc(numPoints*sizeof(float));
+	y = (float * )malloc(numPoints*sizeof(float));
+	z = (float * )malloc(numPoints*sizeof(float));
+	theta = (float * )malloc(numPoints*sizeof(float));
+
+	x = interp(prev->x,curr->x,numPoints);
+	y = interp(prev->y,curr->y,numPoints);
+	z = interp(prev_z,curr_z,numPoints);
+	theta = interp(prev->theta,curr->theta,numPoints);
 	
 	for (i = 0; i < numPoints; i++)
 	{
 		current = calcStep(dist2steps(x[i]), dist2steps(y[i]), dist2steps(z[i]), rot2steps(theta[i]), 1);
 		printPacket(current);
-		sendPacket(current);
+		sendPacket(current, uart_port);
 	}
 	
 	free(x); free(y); free(z); free(theta);
