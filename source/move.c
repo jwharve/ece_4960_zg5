@@ -181,7 +181,7 @@ void swapTool(struct gLine * prev, struct gLine * curr, int uart_port, float z_c
 
 			//go to previous tool position in toolbed, pass in prev for previous position
 			//and prevToolLine for new x and y, keep heights the same
-			move(&prev,&prevToolLine,MOVE_HEIGHT,MOVE_HEIGHT,1,uart_port);
+			move(prev,&prevToolLine,MOVE_HEIGHT,MOVE_HEIGHT,1,uart_port);
 			//lower height to prepare for detachment
 			move(&prevToolLine,&prevToolLine,MOVE_HEIGHT,DRAW_HEIGHT,1,uart_port);
 			//release electromagnet
