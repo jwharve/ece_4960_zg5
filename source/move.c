@@ -82,16 +82,16 @@ struct packet calcStep(float x, float y, float z, float theta, char E)
 	draw.y = y;
 	draw.z = z;
 	
-	ret.S0 = dist2steps(dist(addP(draw,h0),post0));
-	ret.S1 = dist2steps(dist(addP(draw,h1),post1));
-	ret.S2 = dist2steps(dist(addP(draw,h2),post2));
+	ret.S0 = dist2steps(distance(addP(draw,h0),post0));
+	ret.S1 = dist2steps(distance(addP(draw,h1),post1));
+	ret.S2 = dist2steps(distance(addP(draw,h2),post2));
 	ret.R = rot2steps(theta);
 	ret.E = E;
 	
 	return ret;
 }
 
-void swapTool(struct gLine prev, struct gLine curr) 
+void swapTool(struct gLine * prev, struct gLine * curr) 
 {
 
 	return;
