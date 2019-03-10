@@ -26,7 +26,7 @@ void move(struct gLine * prev, struct gLine * curr, float prev_z, float curr_z, 
 	for (i = 0; i < numPoints; i++)
 	{
 		current = calcStep(dist2steps(x[i]), dist2steps(y[i]), dist2steps(z[i]), rot2steps(theta[i]), 1);
-		printPacket(current);
+		//printPacket(current);
 		sendPacket(current, uart_port);
 	}
 
@@ -38,7 +38,7 @@ int numSteps(struct gLine prev, struct gLine curr)
 	struct point one, two;
 	float dist;
 	float angle;
-	
+
 	one.x = prev.x;
 	one.y = prev.y;
 	if (prev.moveType == MOVE)
@@ -49,7 +49,7 @@ int numSteps(struct gLine prev, struct gLine curr)
 	{
 		one.z = DRAW_HEIGHT;
 	}
-	
+
 	two.x = curr.x;
 	two.y = curr.y;
 	if (curr.moveType == MOVE)

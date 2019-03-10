@@ -139,7 +139,7 @@ float * interp(float one, float two, unsigned long num)
 	return pointsArr;
 }
 
-int dist2steps(float dist) 
+int dist2steps(float dist)
 {
 
 	//circum needs to be measures
@@ -149,7 +149,7 @@ int dist2steps(float dist)
 	return steps;
 }
 
-int rot2steps(float rot) 
+int rot2steps(float rot)
 {
 
 

@@ -22,7 +22,7 @@ int main(void)
 	line[0].x = 0;
 	line[0].y = 0;
 	line[0].theta = 0;
-	z[0] = 0;
+	z[0] = DRAW_HEIGHT;
 
 	swapTool(NULL,line);
 
@@ -62,5 +62,4 @@ int main(void)
 
 		num++;
 	}
-
 }
