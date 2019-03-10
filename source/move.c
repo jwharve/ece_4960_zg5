@@ -161,7 +161,7 @@ void swapTool(struct gLine * prev, struct gLine * curr, int uart_port, float z_c
 		
 		//go up--pass in prev for previous and current so x and y dont change
 		//pass in draw height and move height to raise it
-		move(&prev,&prev,z_curr,MOVE_HEIGHT,1,uart_port);
+		move(prev,prev,z_curr,MOVE_HEIGHT,1,uart_port);
 
 		if (prev->tool != NOTOOL) 
 		{
@@ -187,9 +187,9 @@ void swapTool(struct gLine * prev, struct gLine * curr, int uart_port, float z_c
 		//raise tool
 		move(&newToolLine,&newToolLine,DRAW_HEIGHT,MOVE_HEIGHT,1,uart_port);
 		//go back to previous position
-		move(&newToolLine,&prev,MOVE_HEIGHT,MOVE_HEIGHT,1,uart_port);
+		move(&newToolLine,prev,MOVE_HEIGHT,MOVE_HEIGHT,1,uart_port);
 		//lower
-		move(&prev,&prev,MOVE_HEIGHT,z_curr,1,uart_port);
+		move(prev,prev,MOVE_HEIGHT,z_curr,1,uart_port);
 
 
 
