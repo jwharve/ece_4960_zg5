@@ -36,7 +36,7 @@
 #define POST_HEIGHT 18 /* Height of hole on post */
 #define POST_RADIUS 18.33333333 /* Radius of holes on posts */
 
-#define CIRC 1 /* circumference of the spool */
+#define CIRC 0.375 /* circumference of the spool */
 
 #define DTR 0.01745329251   /* degrees to radians (pi/180) */
 

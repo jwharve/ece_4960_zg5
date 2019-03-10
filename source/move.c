@@ -26,7 +26,7 @@ void move(struct gLine * prev, struct gLine * curr, float prev_z, float curr_z, 
 	for (i = 0; i < numPoints; i++)
 	{
 		current = calcStep(dist2steps(x[i]), dist2steps(y[i]), dist2steps(z[i]), rot2steps(theta[i]), 1);
-		//printPacket(current);
+		printPacket(current);
 		sendPacket(current, uart_port);
 	}
 
@@ -60,10 +60,11 @@ int numSteps(struct gLine prev, struct gLine curr)
 	{
 		two.z = DRAW_HEIGHT;
 	}
-	
+
 	dist = distance(one,two);
+
 	angle = fabsf(curr.theta - prev.theta);
-	
+
 	if (dist*DIST_WEIGHT > angle*ANGLE_WEIGHT)
 	{
 
@@ -72,7 +73,6 @@ int numSteps(struct gLine prev, struct gLine curr)
 		}else {
 			return 1;
 		}
-		
 	}
 	else
 	{
@@ -82,7 +82,6 @@ int numSteps(struct gLine prev, struct gLine curr)
 		}else {
 			return 1;
 		}
-		
 	}
 }
 
@@ -93,13 +92,13 @@ struct packet calcStep(float x, float y, float z, float theta, char E)
 	draw.x = x;
 	draw.y = y;
 	draw.z = z;
-	
-	ret.S0 = dist2steps(distance(addP(draw,h0),post0));
-	ret.S1 = dist2steps(distance(addP(draw,h1),post1));
-	ret.S2 = dist2steps(distance(addP(draw,h2),post2));
+
+	ret.S0 = dist2steps(distance(addP(draw,h0),post0)) - zero_step;
+	ret.S1 = dist2steps(distance(addP(draw,h1),post1)) - zero_step;
+	ret.S2 = dist2steps(distance(addP(draw,h2),post2)) - zero_step;
 	ret.R = rot2steps(theta);
 	ret.E = E;
-	
+
 	return ret;
 }
 

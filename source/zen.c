@@ -24,8 +24,6 @@ int main(void)
 	line[0].theta = 0;
 	z[0] = DRAW_HEIGHT;
 
-	
-
 	initGlobal();
 
 	// NOTE: num+1 is the current line
