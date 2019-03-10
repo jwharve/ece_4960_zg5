@@ -63,7 +63,7 @@ int readLine(FILE * fptr, struct gLine * curr)
 	if (readSuccess != -1)
 	{
 		sscanf(line, "%c %c %s %s %f", &(curr->moveType), &(curr->tool), xString, yString, &(curr->theta));
-		printf("xString - %s ... yString %s\n",xString,yString);
+		//printf("xString - %s ... yString %s\n",xString,yString);
 		x += (float)(xString[1]-'0')*1;
 		x += (float)(xString[2]-'0')/10;
 		x += (float)(xString[3]-'0')/100;
@@ -129,11 +129,11 @@ float * interp(float one, float two, unsigned long num)
 
 	increment = (two-one)/num;
 	pointsArr[0] = one+increment;
-	printf("FIRST - %f\n",pointsArr[0]);
+	//printf("FIRST - %f\n",pointsArr[0]);
 	for (i= 1;i<num-1;i++)
 	{
 		pointsArr[i] = pointsArr[i-1]+increment;
-		printf("%f\n",pointsArr[i]);
+		//printf("%f\n",pointsArr[i]);
 	}
 
 	return pointsArr;
