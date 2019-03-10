@@ -161,7 +161,7 @@ void swapTool(struct gLine * prev, struct gLine * curr, int uart_port, float z_c
 		
 		//go up--pass in prev for previous and current so x and y dont change
 		//pass in draw height and move height to raise it
-		move(prev,prev,z_curr,MOVE_HEIGHT,1,uart_port);
+		move(&prev,&prev,z_curr,MOVE_HEIGHT,1,uart_port);
 
 		if (prev->tool != NOTOOL) 
 		{
@@ -169,27 +169,27 @@ void swapTool(struct gLine * prev, struct gLine * curr, int uart_port, float z_c
 
 			//go to previous tool position in toolbed, pass in prev for previous position
 			//and prevToolLine for new x and y, keep heights the same
-			move(prev,prevToolLine,MOVE_HEIGHT,MOVE_HEIGHT,1,uart_port);
+			move(&prev,&prevToolLine,MOVE_HEIGHT,MOVE_HEIGHT,1,uart_port);
 			//lower height to prepare for detachment
-			move(prevToolLine,prevToolLine,MOVE_HEIGHT,DRAW_HEIGHT,1,uart_port);
+			move(&prevToolLine,&prevToolLine,MOVE_HEIGHT,DRAW_HEIGHT,1,uart_port);
 			//release electromagnet
-			move(prevToolLine,prevToolLine,DRAW_HEIGHT,DRAW_HEIGHT,0,uart_port);
+			move(&prevToolLine,&prevToolLine,DRAW_HEIGHT,DRAW_HEIGHT,0,uart_port);
 			//raise up without tool
-			move(prevToolLine,prevToolLine,DRAW_HEIGHT,MOVE_HEIGHT,0,uart_port);
+			move(&prevToolLine,&prevToolLine,DRAW_HEIGHT,MOVE_HEIGHT,0,uart_port);
 
 		}
 		//move to new tool
-		move(prevToolLine,newToolLine,MOVE_HEIGHT,MOVE_HEIGHT,0,uart_port);
+		move(&prevToolLine,&newToolLine,MOVE_HEIGHT,MOVE_HEIGHT,0,uart_port);
 		//lower tool
-		move(newToolLine,newToolLine,MOVE_HEIGHT,DRAW_HEIGHT,0,uart_port);
+		move(&newToolLine,&newToolLine,MOVE_HEIGHT,DRAW_HEIGHT,0,uart_port);
 		//turn on electromagnet
-		move(newToolLine,newToolLine,DRAW_HEIGHT,DRAW_HEIGHT,1,uart_port);
+		move(&newToolLine,&newToolLine,DRAW_HEIGHT,DRAW_HEIGHT,1,uart_port);
 		//raise tool
-		move(newToolLine,newToolLine,DRAW_HEIGHT,MOVE_HEIGHT,1,uart_port);
+		move(&newToolLine,&newToolLine,DRAW_HEIGHT,MOVE_HEIGHT,1,uart_port);
 		//go back to previous position
-		move(newToolLine,prev,MOVE_HEIGHT,MOVE_HEIGHT,1,uart_port);
+		move(&newToolLine,&prev,MOVE_HEIGHT,MOVE_HEIGHT,1,uart_port);
 		//lower
-		move(prev,prev,MOVE_HEIGHT,z_curr,1,uart_port);
+		move(&prev,&prev,MOVE_HEIGHT,z_curr,1,uart_port);
 
 
 
