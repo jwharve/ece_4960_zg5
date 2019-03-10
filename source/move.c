@@ -66,11 +66,23 @@ int numSteps(struct gLine prev, struct gLine curr)
 	
 	if (dist*DIST_WEIGHT > angle*ANGLE_WEIGHT)
 	{
-		return (int) dist*DIST_WEIGHT;
+
+		if ((int) dist*DIST_WEIGHT > 0) {
+			return (int) dist*DIST_WEIGHT;
+		}else {
+			return 1;
+		}
+		
 	}
 	else
 	{
-		return (int) angle*ANGLE_WEIGHT;
+
+		if ((int) angle*ANGLE_WEIGHT > 0) {
+			return (int) angle*ANGLE_WEIGHT;
+		}else {
+			return 1;
+		}
+		
 	}
 }
 
