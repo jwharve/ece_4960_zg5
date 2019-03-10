@@ -9,7 +9,7 @@
 
 #define MOVE '1' /* move type */
 #define DRAW '2' /* move type */
-#define CLIEAR '1' /* tool type */
+#define CLEAR '1' /* tool type */
 #define BLUNT '2' /* tool type */
 #define FINE '3' /* tool type */
 #define RAKE '4' /* tool type */
@@ -22,14 +22,14 @@
 #define ANGLE_WEIGHT 1 /* scale factor for 1 degree rotation to number of steps */
 
 // Tool Locations
-#define TOOL1X 10
-#define TOOL1Y 10
-#define TOOL2X 20
-#define TOOL2Y 20
-#define TOOL3X 30
-#define TOOL3Y 30
-#define TOOL4X 40
-#define TOOL4Y 40
+#define TOOLCLEARX 10
+#define TOOLCLEARY 10
+#define TOOLBLUNTX 20
+#define TOOLBLUNTY 20
+#define TOOLFINEX 30
+#define TOOLFINEY 30
+#define TOOLRAKEX 40
+#define TOOLRAKEY 40
 
 #define MOUNT_RADIUS 0.5 /* Radius of holes on mount */
 #define MOUNT_HEIGHT 2 /* Height from tool tip to mount holes on mount */

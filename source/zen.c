@@ -24,7 +24,7 @@ int main(void)
 	line[0].theta = 0;
 	z[0] = DRAW_HEIGHT;
 
-	swapTool(NULL,line);
+	
 
 	initGlobal();
 
@@ -46,7 +46,7 @@ int main(void)
 				printf("Error in gcode file with move type.\n");
 				exit(0);
 			}
-			swapTool(line+num%2,line+(num+1)%2);
+			swapTool(line+num%2,line+(num+1)%2,uart_port,z[(num+1)%2]);
 		}
 
 		if (line[(num+1)%2].moveType == DRAW)
