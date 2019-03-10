@@ -22,14 +22,14 @@ void move(struct gLine * prev, struct gLine * curr, float prev_z, float curr_z, 
 	y = interp(prev->y,curr->y,numPoints);
 	z = interp(prev_z,curr_z,numPoints);
 	theta = interp(prev->theta,curr->theta,numPoints);
-	
+
 	for (i = 0; i < numPoints; i++)
 	{
 		current = calcStep(dist2steps(x[i]), dist2steps(y[i]), dist2steps(z[i]), rot2steps(theta[i]), 1);
 		printPacket(current);
 		sendPacket(current, uart_port);
 	}
-	
+
 	free(x); free(y); free(z); free(theta);
 }
 

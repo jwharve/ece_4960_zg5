@@ -1,10 +1,10 @@
 CC = gcc
-CFLAGS = -Wall
+CFLAGS = -Wall -g
 LIBS = -lwiringPi -lm
 
 TARGET = zen
 SRCS = util.c move.c
-DEPS = def.h
+DEPS = def.h Makefile
 
 OBJS = $(SRCS:.c=.o)
 HDRS = $(SRCS:.c=.h)
@@ -19,4 +19,4 @@ $(TARGET): $(TARGET).c $(OBJS) $(DEPS)
 	$(CC) -c -o $@ $< $(CFLAGS) $(LIBS)
 
 clean:
-	rm $(OBJS) main $()
+	rm $(OBJS) $(TARGET) $()

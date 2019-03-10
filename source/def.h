@@ -13,6 +13,7 @@
 #define BLUNT '2' /* tool type */
 #define FINE '3' /* tool type */
 #define RAKE '4' /* tool type */
+#define NOTOOL '5' /* id for no tool */
 
 #define DRAW_HEIGHT 5 /* height in inches for drawing */
 #define MOVE_HEIGHT 6 /* height in inches for moving */
@@ -38,6 +39,9 @@
 #define CIRC 1 /* circumference of the spool */
 
 #define DTR 0.01745329251   /* degrees to radians (pi/180) */
+
+#define SMALL 0.00001
+
 
 struct gLine/* packed */
 {
