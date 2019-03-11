@@ -32,17 +32,19 @@
 #define TOOLRAKEY 4
 
 #define MOUNT_RADIUS 0.5 /* Radius of holes on mount */
-#define MOUNT_HEIGHT 4 /* Height from tool tip to mount holes on mount */
+#define MOUNT_HEIGHT 4.5 /* Height from tool tip to mount holes on mount */
 #define POST_HEIGHT 13.25 /* Height of hole on post */
 #define POST_RADIUS 18.33333333 /* Radius of holes on posts */
 
-#define CIRC 0.5 /* circumference of the spool */
+#define CIRC 1 /* circumference of the spool */
 
 #define DTR 0.01745329251   /* degrees to radians (pi/180) */
 
 #define SMALL 0.00001
 
 #define SEND_DELAY 75
+
+#define FILE_NAME_LEN 100
 
 struct gLine/* packed */
 {

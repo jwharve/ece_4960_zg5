@@ -38,7 +38,7 @@ void move(struct gLine * prev, struct gLine * curr, float prev_z, float curr_z, 
 		delay(SEND_DELAY);
 	}
 
-	delay(2000);
+//	delay(2000);
 
 	free(x); free(y); free(z); free(theta);
 }
