@@ -11,11 +11,11 @@ void initGlobal(void)
 	h0.y = -MOUNT_RADIUS;
 	h0.z = MOUNT_HEIGHT;
 
-	h1.x = MOUNT_RADIUS*sin(60*DTR);
+	h1.x = -MOUNT_RADIUS*sin(60*DTR);
 	h1.y = MOUNT_RADIUS*cos(60*DTR);
 	h1.z = MOUNT_HEIGHT;
 
-	h2.x = -MOUNT_RADIUS*sin(60*DTR);
+	h2.x = MOUNT_RADIUS*sin(60*DTR);
 	h2.y = MOUNT_RADIUS*cos(60*DTR);
 	h2.z = MOUNT_HEIGHT;
 
@@ -23,13 +23,20 @@ void initGlobal(void)
 	post0.y = -POST_RADIUS;
 	post0.z = POST_HEIGHT;
 
-	post1.x = POST_RADIUS*sin(60*DTR);
+	post1.x = -POST_RADIUS*sin(60*DTR);
 	post1.y = POST_RADIUS*cos(60*DTR);
 	post1.z = POST_HEIGHT;
 
-	post2.x = -POST_RADIUS*sin(60*DTR);
+	post2.x = POST_RADIUS*sin(60*DTR);
 	post2.y = POST_RADIUS*cos(60*DTR);
 	post2.z = POST_HEIGHT;
+
+	struct point zero;
+	zero.x = 0;
+	zero.y = 0;
+	zero.z = DRAW_HEIGHT;
+
+	zero_step = dist2steps(distance(addP(zero,h0),post0));
 }
 
 struct point addP(struct point one, struct point two)
@@ -127,7 +134,7 @@ float * interp(float one, float two, unsigned long num)
 		return pointsArr;
 	}
 
-	pointsArr[num]=two;
+	pointsArr[num-1]=two;
 
 	increment = (two-one)/num;
 	pointsArr[0] = one+increment;
@@ -172,6 +179,5 @@ void sendPacket(struct packet p, int uart_port)
 	for (i = 0; i < sizeof(struct packet); i++)
 	{
 		serialPutchar(uart_port, rover[i]);
-		delay(3);
 	}
 }

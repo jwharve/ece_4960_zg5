@@ -13,6 +13,6 @@ void swapTool(struct gLine * prev, struct gLine * curr, int uart_port, float z_c
 
 void move(struct gLine * prev, struct gLine * curr, float prev_z, float curr_z, unsigned char E, int uart_port);
 
-int numSteps(struct gLine prev, struct gLine curr);
+int numSteps(struct gLine prev, struct gLine curr, int prev_z, int curr_z);
 
 #endif

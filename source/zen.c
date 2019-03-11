@@ -2,6 +2,8 @@
 #include "move.h"
 #include "def.h"
 
+int zero_step;
+
 int main(void)
 {
 	struct gLine line[2];
@@ -26,6 +28,10 @@ int main(void)
 
 	initGlobal();
 
+//	printPacket(calcStep(0,0,0,0,0));
+
+//	return 0;
+
 	// NOTE: num+1 is the current line
 	while (!feof(fptr))
 	{
@@ -44,7 +50,7 @@ int main(void)
 				printf("Error in gcode file with move type.\n");
 				exit(0);
 			}
-			swapTool(line+num%2,line+(num+1)%2,uart_port,z[(num+1)%2]);
+			swapTool(line+num%2,line+(num+1)%2,uart_port,z[(num)%2]);
 		}
 
 		if (line[(num+1)%2].moveType == DRAW)
@@ -56,7 +62,25 @@ int main(void)
 			z[(num+1)%2] = MOVE_HEIGHT;
 		}
 
-		move(line+num%2, line+(num+1)%2, z[num%2], z[(num+1)%2], 1, uart_port);
+		if (fabsf(z[0] - z[1]) < SMALL)
+		{
+//			printf("SAME HEIGHT\n");
+			move(line+num%2, line+(num+1)%2, z[num%2], z[(num+1)%2], 1, uart_port);
+		}
+		else
+		{
+//			printf("DIFFERENT HEIGHT\n");
+			if (z[(num+1)%2] == MOVE_HEIGHT)
+			{
+				move(line+num%2, line+num%2, z[num%2], z[(num+1)%2], 1, uart_port);
+				move(line+num%2, line+(num+1)%2, z[(num+1)%2], z[(num+1)%2], 1, uart_port);
+			}
+			else
+			{
+				move(line+num%2, line+(num+1)%2, z[num%2], z[num%2], 1, uart_port);
+				move(line+(num+1)%2, line+(num+1)%2, z[num%2], z[(num+1)%2], 1, uart_port);
+			}
+		}
 
 		num++;
 	}
