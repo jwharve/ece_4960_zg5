@@ -11,11 +11,11 @@ void initGlobal(void)
 	h0.y = -MOUNT_RADIUS;
 	h0.z = MOUNT_HEIGHT;
 
-	h1.x = MOUNT_RADIUS*sin(60*DTR);
+	h1.x = -MOUNT_RADIUS*sin(60*DTR);
 	h1.y = MOUNT_RADIUS*cos(60*DTR);
 	h1.z = MOUNT_HEIGHT;
 
-	h2.x = -MOUNT_RADIUS*sin(60*DTR);
+	h2.x = MOUNT_RADIUS*sin(60*DTR);
 	h2.y = MOUNT_RADIUS*cos(60*DTR);
 	h2.z = MOUNT_HEIGHT;
 
@@ -23,11 +23,11 @@ void initGlobal(void)
 	post0.y = -POST_RADIUS;
 	post0.z = POST_HEIGHT;
 
-	post1.x = POST_RADIUS*sin(60*DTR);
+	post1.x = -POST_RADIUS*sin(60*DTR);
 	post1.y = POST_RADIUS*cos(60*DTR);
 	post1.z = POST_HEIGHT;
 
-	post2.x = -POST_RADIUS*sin(60*DTR);
+	post2.x = POST_RADIUS*sin(60*DTR);
 	post2.y = POST_RADIUS*cos(60*DTR);
 	post2.z = POST_HEIGHT;
 

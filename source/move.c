@@ -11,6 +11,12 @@ void move(struct gLine * prev, struct gLine * curr, float prev_z, float curr_z, 
 	float * theta;
 	int i;
 
+	printf("PREV\n");
+	printf("x = %f, y = %f, z = %f, theta = %f\n", prev->x, prev->y, prev_z, prev->theta);
+	printf("CURRENT\n");
+	printf("x = %f, y = %f, z = %f, theta = %f\n", curr->x, curr->y, curr_z, curr->theta);
+
+
 	numPoints = numSteps(*prev, *curr, prev_z, curr_z);
 
 	x = (float * )malloc(numPoints*sizeof(float));
@@ -25,6 +31,7 @@ void move(struct gLine * prev, struct gLine * curr, float prev_z, float curr_z, 
 
 	for (i = 0; i < numPoints; i++)
 	{
+//		printf("x - %f\ty - %f\tz - %f\n",x[i],y[i],z[i]);
 		current = calcStep(x[i], y[i], z[i], theta[i], 1);
 		printPacket(current);
 		sendPacket(current, uart_port);
@@ -94,7 +101,7 @@ struct packet calcStep(float x, float y, float z, float theta, char E)
 void swapTool(struct gLine * prev, struct gLine * curr, int uart_port, float z_prev)
 {
 
-	//return;
+	return;
 
 	//grab tool initially
 	//go to prev tool position and release tool

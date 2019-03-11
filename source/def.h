@@ -15,10 +15,10 @@
 #define RAKE '4' /* tool type */
 #define NOTOOL '5' /* id for no tool */
 
-#define DRAW_HEIGHT 5 /* height in inches for drawing */
-#define MOVE_HEIGHT 6 /* height in inches for moving */
+#define DRAW_HEIGHT 4 /* height in inches for drawing */
+#define MOVE_HEIGHT 5 /* height in inches for moving */
 
-#define DIST_WEIGHT 4 /* scale factor for 1 inch distance to number of steps */
+#define DIST_WEIGHT 25 /* scale factor for 1 inch distance to number of steps */
 #define ANGLE_WEIGHT 1 /* scale factor for 1 degree rotation to number of steps */
 
 // Tool Locations
@@ -32,17 +32,17 @@
 #define TOOLRAKEY 4
 
 #define MOUNT_RADIUS 0.5 /* Radius of holes on mount */
-#define MOUNT_HEIGHT 2 /* Height from tool tip to mount holes on mount */
-#define POST_HEIGHT 18 /* Height of hole on post */
+#define MOUNT_HEIGHT 4 /* Height from tool tip to mount holes on mount */
+#define POST_HEIGHT 13.25 /* Height of hole on post */
 #define POST_RADIUS 18.33333333 /* Radius of holes on posts */
 
-#define CIRC 0.375 /* circumference of the spool */
+#define CIRC 0.5 /* circumference of the spool */
 
 #define DTR 0.01745329251   /* degrees to radians (pi/180) */
 
 #define SMALL 0.00001
 
-#define SEND_DELAY 750
+#define SEND_DELAY 75
 
 struct gLine/* packed */
 {

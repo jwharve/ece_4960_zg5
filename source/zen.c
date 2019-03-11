@@ -62,7 +62,25 @@ int main(void)
 			z[(num+1)%2] = MOVE_HEIGHT;
 		}
 
-		move(line+num%2, line+(num+1)%2, z[num%2], z[(num+1)%2], 1, uart_port);
+		if (fabsf(z[0] - z[1]) < SMALL)
+		{
+//			printf("SAME HEIGHT\n");
+			move(line+num%2, line+(num+1)%2, z[num%2], z[(num+1)%2], 1, uart_port);
+		}
+		else
+		{
+//			printf("DIFFERENT HEIGHT\n");
+			if (z[(num+1)%2] == MOVE_HEIGHT)
+			{
+				move(line+num%2, line+num%2, z[num%2], z[(num+1)%2], 1, uart_port);
+				move(line+num%2, line+(num+1)%2, z[(num+1)%2], z[(num+1)%2], 1, uart_port);
+			}
+			else
+			{
+				move(line+num%2, line+(num+1)%2, z[num%2], z[num%2], 1, uart_port);
+				move(line+(num+1)%2, line+(num+1)%2, z[num%2], z[(num+1)%2], 1, uart_port);
+			}
+		}
 
 		num++;
 	}
