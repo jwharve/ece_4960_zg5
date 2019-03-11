@@ -22,14 +22,14 @@
 #define ANGLE_WEIGHT 1 /* scale factor for 1 degree rotation to number of steps */
 
 // Tool Locations
-#define TOOLCLEARX 10
-#define TOOLCLEARY 10
-#define TOOLBLUNTX 20
-#define TOOLBLUNTY 20
-#define TOOLFINEX 30
-#define TOOLFINEY 30
-#define TOOLRAKEX 40
-#define TOOLRAKEY 40
+#define TOOLCLEARX 1
+#define TOOLCLEARY 1
+#define TOOLBLUNTX 2
+#define TOOLBLUNTY 2
+#define TOOLFINEX 3
+#define TOOLFINEY 3
+#define TOOLRAKEX 4
+#define TOOLRAKEY 4
 
 #define MOUNT_RADIUS 0.5 /* Radius of holes on mount */
 #define MOUNT_HEIGHT 2 /* Height from tool tip to mount holes on mount */
