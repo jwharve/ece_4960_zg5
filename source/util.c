@@ -123,6 +123,8 @@ float * interp(float one, float two, unsigned long num)
 		{
 			pointsArr[i] = one;
 		}
+
+		return pointsArr;
 	}
 
 	pointsArr[num]=two;
