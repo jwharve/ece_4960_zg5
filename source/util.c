@@ -30,6 +30,13 @@ void initGlobal(void)
 	post2.x = -POST_RADIUS*sin(60*DTR);
 	post2.y = POST_RADIUS*cos(60*DTR);
 	post2.z = POST_HEIGHT;
+
+	struct point zero;
+	zero.x = 0;
+	zero.y = 0;
+	zero.z = DRAW_HEIGHT;
+
+	zero_step = dist2steps(distance(addP(zero,h0),post0));
 }
 
 struct point addP(struct point one, struct point two)

@@ -2,6 +2,8 @@
 #define UTIL_H
 #include "def.h"
 
+extern int zero_step;
+
 void printPacket(struct packet p);
 
 void initGlobal(void);

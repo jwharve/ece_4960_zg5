@@ -25,7 +25,7 @@ void move(struct gLine * prev, struct gLine * curr, float prev_z, float curr_z, 
 
 	for (i = 0; i < numPoints; i++)
 	{
-		current = calcStep(dist2steps(x[i]), dist2steps(y[i]), dist2steps(z[i]), rot2steps(theta[i]), 1);
+		current = calcStep(x[i], y[i], z[i], theta[i], 1);
 		printPacket(current);
 		sendPacket(current, uart_port);
 	}
@@ -102,7 +102,7 @@ struct packet calcStep(float x, float y, float z, float theta, char E)
 	return ret;
 }
 
-void swapTool(struct gLine * prev, struct gLine * curr, int uart_port, float z_curr) 
+void swapTool(struct gLine * prev, struct gLine * curr, int uart_port, float z_prev)
 {
 
 	//return;
@@ -113,9 +113,8 @@ void swapTool(struct gLine * prev, struct gLine * curr, int uart_port, float z_c
 
 	struct gLine prevToolLine,newToolLine;
 
-	if (curr->tool==CLEAR) 
+	if (curr->tool==CLEAR)
 	{
-
 		newToolLine.x = TOOLCLEARX;
 		newToolLine.y = TOOLCLEARY;
 	}
@@ -123,27 +122,22 @@ void swapTool(struct gLine * prev, struct gLine * curr, int uart_port, float z_c
 	{
 		newToolLine.x = TOOLBLUNTX;
 		newToolLine.y = TOOLBLUNTY;
-	} 
+	}
 	else if (curr->tool == FINE)
 	{
 		newToolLine.x = TOOLFINEX;
 		newToolLine.y = TOOLFINEY;
-
 	}
 	else if (curr->tool == RAKE)
 	{
 		newToolLine.x = TOOLRAKEX;
 		newToolLine.y = TOOLRAKEY;
 	}
-	
 
-	if (prev->tool != NOTOOL) 
+	if (prev->tool != NOTOOL)
 	{
-		
-
-		if (prev->tool==CLEAR) 
+		if (prev->tool==CLEAR)
 		{
-
 			prevToolLine.x = TOOLCLEARX;
 			prevToolLine.y = TOOLCLEARY;
 
@@ -153,63 +147,52 @@ void swapTool(struct gLine * prev, struct gLine * curr, int uart_port, float z_c
 			prevToolLine.x = TOOLBLUNTX;
 			prevToolLine.y = TOOLBLUNTY;
 
-		} 
+		}
 		else if (prev->tool == FINE)
 		{
 			prevToolLine.x = TOOLFINEX;
 			prevToolLine.y = TOOLFINEY;
-
 		}
 		else if (prev->tool == RAKE)
 		{
 			prevToolLine.x = TOOLRAKEX;
 			prevToolLine.y = TOOLRAKEY;
-
 		}
 	}
-		
 
-		
-		//go up--pass in prev for previous and current so x and y dont change
-		//pass in draw height and move height to raise it
-		move(prev,prev,z_curr,MOVE_HEIGHT,1,uart_port);
-
-		if (prev->tool != NOTOOL) 
-		{
-
-
-			//go to previous tool position in toolbed, pass in prev for previous position
-			//and prevToolLine for new x and y, keep heights the same
-			move(prev,&prevToolLine,MOVE_HEIGHT,MOVE_HEIGHT,1,uart_port);
-			//lower height to prepare for detachment
-			move(&prevToolLine,&prevToolLine,MOVE_HEIGHT,DRAW_HEIGHT,1,uart_port);
-			//release electromagnet
-			move(&prevToolLine,&prevToolLine,DRAW_HEIGHT,DRAW_HEIGHT,0,uart_port);
-			//raise up without tool
-			move(&prevToolLine,&prevToolLine,DRAW_HEIGHT,MOVE_HEIGHT,0,uart_port);
-
-		}
+	//go up--pass in prev for previous and current so x and y dont change
+	//pass in draw height and move height to raise it
+	move(prev,prev,z_prev,MOVE_HEIGHT,1,uart_port);
+	if (prev->tool != NOTOOL)
+	{
+		//go to previous tool position in toolbed, pass in prev for previous position
+		//and prevToolLine for new x and y, keep heights the same
+		move(prev,&prevToolLine,MOVE_HEIGHT,MOVE_HEIGHT,1,uart_port);
+		//lower height to prepare for detachment
+		move(&prevToolLine,&prevToolLine,MOVE_HEIGHT,DRAW_HEIGHT,1,uart_port);
+		//release electromagnet
+		move(&prevToolLine,&prevToolLine,DRAW_HEIGHT,DRAW_HEIGHT,0,uart_port);
+		//raise up without tool
+		move(&prevToolLine,&prevToolLine,DRAW_HEIGHT,MOVE_HEIGHT,0,uart_port);
 		//move to new tool
 		move(&prevToolLine,&newToolLine,MOVE_HEIGHT,MOVE_HEIGHT,0,uart_port);
-		//lower tool
-		move(&newToolLine,&newToolLine,MOVE_HEIGHT,DRAW_HEIGHT,0,uart_port);
-		//turn on electromagnet
-		move(&newToolLine,&newToolLine,DRAW_HEIGHT,DRAW_HEIGHT,1,uart_port);
-		//raise tool
-		move(&newToolLine,&newToolLine,DRAW_HEIGHT,MOVE_HEIGHT,1,uart_port);
-		//go back to previous position
-		move(&newToolLine,prev,MOVE_HEIGHT,MOVE_HEIGHT,1,uart_port);
-		//lower
-		move(prev,prev,MOVE_HEIGHT,z_curr,1,uart_port);
+	}
+	else
+	{
+		move(prev,&newToolLine,MOVE_HEIGHT,MOVE_HEIGHT,0,uart_port);
+	}
+	//lower tool
+	move(&newToolLine,&newToolLine,MOVE_HEIGHT,DRAW_HEIGHT,0,uart_port);
+	//turn on electromagnet
+	move(&newToolLine,&newToolLine,DRAW_HEIGHT,DRAW_HEIGHT,1,uart_port);
+	//raise tool
+	move(&newToolLine,&newToolLine,DRAW_HEIGHT,MOVE_HEIGHT,1,uart_port);
+	//go back to previous position
+	move(&newToolLine,prev,MOVE_HEIGHT,MOVE_HEIGHT,1,uart_port);
+	//lower
+	move(prev,prev,MOVE_HEIGHT,z_prev,1,uart_port);
 
-
-
-
-
-
-		//after inital tool setup
-		//go to prev.tool position and drop it
-		//go to new tool position from old tool position and grab new tool
-
-
+	//after inital tool setup
+	//go to prev.tool position and drop it
+	//go to new tool position from old tool position and grab new tool
 }
