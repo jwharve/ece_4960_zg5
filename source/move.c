@@ -11,7 +11,7 @@ void move(struct gLine * prev, struct gLine * curr, float prev_z, float curr_z, 
 	float * theta;
 	int i;
 
-	numPoints = numSteps(*prev, *curr);
+	numPoints = numSteps(*prev, *curr, prev_z, curr_z);
 
 	x = (float * )malloc(numPoints*sizeof(float));
 	y = (float * )malloc(numPoints*sizeof(float));
@@ -28,12 +28,15 @@ void move(struct gLine * prev, struct gLine * curr, float prev_z, float curr_z, 
 		current = calcStep(x[i], y[i], z[i], theta[i], 1);
 		printPacket(current);
 		sendPacket(current, uart_port);
+		delay(SEND_DELAY);
 	}
+
+	delay(2000);
 
 	free(x); free(y); free(z); free(theta);
 }
 
-int numSteps(struct gLine prev, struct gLine curr)
+int numSteps(struct gLine prev, struct gLine curr, int prev_z, int curr_z)
 {
 	struct point one, two;
 	float dist;
@@ -41,25 +44,11 @@ int numSteps(struct gLine prev, struct gLine curr)
 
 	one.x = prev.x;
 	one.y = prev.y;
-	if (prev.moveType == MOVE)
-	{
-		one.z = MOVE_HEIGHT;
-	}
-	else
-	{
-		one.z = DRAW_HEIGHT;
-	}
+	one.z = prev_z;
 
 	two.x = curr.x;
 	two.y = curr.y;
-	if (curr.moveType == MOVE)
-	{
-		two.z = MOVE_HEIGHT;
-	}
-	else
-	{
-		two.z = DRAW_HEIGHT;
-	}
+	two.z = curr_z;
 
 	dist = distance(one,two);
 
@@ -162,34 +151,46 @@ void swapTool(struct gLine * prev, struct gLine * curr, int uart_port, float z_p
 
 	//go up--pass in prev for previous and current so x and y dont change
 	//pass in draw height and move height to raise it
+	printf("starting tool change\n");
 	move(prev,prev,z_prev,MOVE_HEIGHT,1,uart_port);
 	if (prev->tool != NOTOOL)
 	{
 		//go to previous tool position in toolbed, pass in prev for previous position
 		//and prevToolLine for new x and y, keep heights the same
+		printf("move to prev tool x y\n");
 		move(prev,&prevToolLine,MOVE_HEIGHT,MOVE_HEIGHT,1,uart_port);
 		//lower height to prepare for detachment
+		printf("go down\n");
 		move(&prevToolLine,&prevToolLine,MOVE_HEIGHT,DRAW_HEIGHT,1,uart_port);
 		//release electromagnet
+		printf("release\n");
 		move(&prevToolLine,&prevToolLine,DRAW_HEIGHT,DRAW_HEIGHT,0,uart_port);
 		//raise up without tool
+		printf("go up\n");
 		move(&prevToolLine,&prevToolLine,DRAW_HEIGHT,MOVE_HEIGHT,0,uart_port);
 		//move to new tool
+		printf("go to new tool\n");
 		move(&prevToolLine,&newToolLine,MOVE_HEIGHT,MOVE_HEIGHT,0,uart_port);
 	}
 	else
 	{
+		printf("go to new tool\n");
 		move(prev,&newToolLine,MOVE_HEIGHT,MOVE_HEIGHT,0,uart_port);
 	}
 	//lower tool
+	printf("lower\n");
 	move(&newToolLine,&newToolLine,MOVE_HEIGHT,DRAW_HEIGHT,0,uart_port);
 	//turn on electromagnet
+	printf("energize\n");
 	move(&newToolLine,&newToolLine,DRAW_HEIGHT,DRAW_HEIGHT,1,uart_port);
 	//raise tool
+	printf("go up\n");
 	move(&newToolLine,&newToolLine,DRAW_HEIGHT,MOVE_HEIGHT,1,uart_port);
 	//go back to previous position
+	printf("go back to x y\n");
 	move(&newToolLine,prev,MOVE_HEIGHT,MOVE_HEIGHT,1,uart_port);
 	//lower
+	printf("go back to z\n");
 	move(prev,prev,MOVE_HEIGHT,z_prev,1,uart_port);
 
 	//after inital tool setup

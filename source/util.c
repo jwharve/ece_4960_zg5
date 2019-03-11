@@ -134,7 +134,7 @@ float * interp(float one, float two, unsigned long num)
 		return pointsArr;
 	}
 
-	pointsArr[num]=two;
+	pointsArr[num-1]=two;
 
 	increment = (two-one)/num;
 	pointsArr[0] = one+increment;
@@ -179,6 +179,5 @@ void sendPacket(struct packet p, int uart_port)
 	for (i = 0; i < sizeof(struct packet); i++)
 	{
 		serialPutchar(uart_port, rover[i]);
-		delay(3);
 	}
 }

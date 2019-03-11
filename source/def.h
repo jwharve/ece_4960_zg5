@@ -18,7 +18,7 @@
 #define DRAW_HEIGHT 5 /* height in inches for drawing */
 #define MOVE_HEIGHT 6 /* height in inches for moving */
 
-#define DIST_WEIGHT 1 /* scale factor for 1 inch distance to number of steps */
+#define DIST_WEIGHT 4 /* scale factor for 1 inch distance to number of steps */
 #define ANGLE_WEIGHT 1 /* scale factor for 1 degree rotation to number of steps */
 
 // Tool Locations
@@ -42,6 +42,7 @@
 
 #define SMALL 0.00001
 
+#define SEND_DELAY 750
 
 struct gLine/* packed */
 {
