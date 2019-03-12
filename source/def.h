@@ -33,10 +33,10 @@
 
 
 #define MOUNT_RADIUS 0.44 /* Radius of holes on mount */
-#define MOUNT_HEIGHT 1.52+2.79 /* Height from tool tip to mount holes on mount */
+#define MOUNT_HEIGHT (1.52+2.79) /* Height from tool tip to mount holes on mount */
 
 #define POST_HEIGHT 13.25 /* Height of hole on post */
-#define POST_RADIUS 18.33333333-0.871 /* Radius of holes on posts */
+#define POST_RADIUS (18.33333333-0.871) /* Radius of holes on posts */
 
 #define CIRC 1 /* circumference of the spool */
 
