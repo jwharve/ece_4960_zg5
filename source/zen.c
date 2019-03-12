@@ -62,38 +62,18 @@ int main(int argc, char * argv[])
 				printf("Error in gcode file with move type.\n");
 				exit(0);
 			}
-			swapTool(line+num%2,line+(num+1)%2,uart_port,z[(num)%2]);
+			swapTool(line+num%2,line+(num+1)%2,uart_port,DRAW_HEIGHT);
 		}
 
-		if (line[(num+1)%2].moveType == DRAW)
+		if (line[(num+1)%2)].moveType == DRAW)
 		{
-			z[(num+1)%2] = DRAW_HEIGHT;
+			move(line+num%2, line+(num+1)%2, DRAW_HEIGHT, DRAW_HEIGHT, 1, uart_port);
 		}
 		else
 		{
-			z[(num+1)%2] = MOVE_HEIGHT;
-		}
-
-		if (abs(z[0] - z[1]) < SMALL)
-		{
-//			printf("SAME HEIGHT\n");
-			move(line+num%2, line+(num+1)%2, z[num%2], z[(num+1)%2], 1, uart_port);
-		}
-		else
-		{
-//			printf("DIFFERENT HEIGHT\n");
-			if (z[(num+1)%2] == MOVE_HEIGHT)
-			{
-				move(line+num%2, line+num%2, z[num%2], z[(num+1)%2], 1, uart_port);
-				move(line+num%2, line+(num+1)%2, z[(num+1)%2], z[(num+1)%2], 1, uart_port);
-			}
-			else
-			{
-				/*to go back to original comment out this one and uncomment third one*/
-				move(line+num%2, line+num%2, z[num%2], z[(num+1)%2], 1, uart_port);
-				move(line+num%2, line+(num+1)%2, z[num%2], z[num%2], 1, uart_port);
-				//move(line+(num+1)%2, line+(num+1)%2, z[num%2], z[(num+1)%2], 1, uart_port);
-			}
+			move(line+num%2, line+num%2, DRAW_HEIGHT, MOVE_HEIGHT, 1, uart_port);
+			move(line+num%2, line+(num+1)%2, MOVE_HEIGHT, MOVE_HEIGHT, 1, uart_port);
+			move(line+(num+1)%2, line+(num+1)%2, MOVE_HEIGHT, DRAW_HEIGHT, 1, uart_port);
 		}
 
 		num++;
