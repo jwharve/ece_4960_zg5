@@ -10,7 +10,7 @@ int main(int argc, char * argv[])
 	struct gLine line[2];
 	FILE * fptr;
 	unsigned long num = 0;
-	float z[2];
+//	float z[2];
 	int readSuccess;
 	int uart_port;
 	char filename[FILE_NAME_LEN];
@@ -36,7 +36,7 @@ int main(int argc, char * argv[])
 	line[0].x = 0;
 	line[0].y = 0;
 	line[0].theta = 0;
-	z[0] = DRAW_HEIGHT;
+//	z[0] = DRAW_HEIGHT;
 
 	initGlobal();
 
@@ -65,7 +65,7 @@ int main(int argc, char * argv[])
 			swapTool(line+num%2,line+(num+1)%2,uart_port,DRAW_HEIGHT);
 		}
 
-		if (line[(num+1)%2)].moveType == DRAW)
+		if (line[(num+1)%2].moveType == DRAW)
 		{
 			move(line+num%2, line+(num+1)%2, DRAW_HEIGHT, DRAW_HEIGHT, 1, uart_port);
 		}
