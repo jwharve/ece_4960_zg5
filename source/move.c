@@ -93,6 +93,7 @@ struct packet calcStep(float x, float y, float z, float theta, char E)
 	ret.S1 = dist2steps(distance(addP(draw,h1),post1)) - zero_step;
 	ret.S2 = dist2steps(distance(addP(draw,h2),post2)) - zero_step;
 	ret.R = rot2steps(theta);
+//	printf("%f\n",theta);
 	ret.E = E;
 
 	return ret;

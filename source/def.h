@@ -46,6 +46,8 @@
 
 #define FILE_NAME_LEN 100
 
+#define ANGLE_TO_STEPS 10
+
 struct gLine/* packed */
 {
 	char moveType;

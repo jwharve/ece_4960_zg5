@@ -164,7 +164,7 @@ int rot2steps(float rot)
 
 	int steps;
 
-	steps = rot * (200/360);
+	steps = (int)(rot * ANGLE_TO_STEPS);
 
 	return steps;
 }
