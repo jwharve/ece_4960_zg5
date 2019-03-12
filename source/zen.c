@@ -1,10 +1,11 @@
 #include "util.h"
 #include "move.h"
 #include "def.h"
+#include "string.h"
 
 int zero_step;
 
-int main(void)
+int main(int argc, char * argv[])
 {
 	struct gLine line[2];
 	FILE * fptr;
@@ -12,12 +13,23 @@ int main(void)
 	float z[2];
 	int readSuccess;
 	int uart_port;
+	char filename[FILE_NAME_LEN];
+	filename[0] = 0;
+
 
 	wiringPiSetup();
 
+	if (argc == 1)
+	{
+		fptr = fopen("file.gcode","rb");
+	}
+	else
+	{
+		strcat(filename,"./gcode/");
+		strcat(filename,argv[1]);
+		fptr = fopen(filename,"rb");
+	}
 	uart_port = serialOpen("/dev/ttyS0",9600);
-
-	fptr = fopen("file.gcode","rb");
 
 	line[0].moveType = MOVE;
 	line[0].tool = NOTOOL;

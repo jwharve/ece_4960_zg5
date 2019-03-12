@@ -23,17 +23,28 @@ int main(int argc, char * argv[])
 
 	wiringPiSetup();
 
-	test.S0 = (int)atoi(argv[1]);
-	test.S1 = (int)atoi(argv[2]);
-	test.S2 = (int)atoi(argv[3]);
-	test.R = (int)atoi(argv[4]);
-	if (argv[5][0] == '0')
+	if (argc != 1)
 	{
-		test.E = 0;
+		test.S0 = (int)atoi(argv[1]);
+		test.S1 = (int)atoi(argv[2]);
+		test.S2 = (int)atoi(argv[3]);
+		test.R = (int)atoi(argv[4]);
+		if (argv[5][0] == '0')
+		{
+			test.E = 0;
+		}
+		else
+		{
+			test.E = 1;
+		}
 	}
 	else
 	{
-		test.E = 1;
+		test.S0 = 0;
+		test.S1 = 0;
+		test.S2 = 0;
+		test.R = 0;
+		test.E = 0;
 	}
 
 	printf("S0 = %d\n",test.S0);
