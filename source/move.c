@@ -9,6 +9,7 @@ void move(struct point prev, struct point next, char E, int uart_port)
 	float * z;
 	float * theta;
 	int i;
+	struct packet current;
 
 	printf("PREV\n");
 	printf("x = %f, y = %f, z = %f, theta = %f\n", prev.x, prev.y, prev.z, prev.theta);
@@ -46,56 +47,56 @@ void swapTool(struct point prev, struct point next, char prevTool, char nextTool
 	//go to prev tool position and release tool
 	//go to new tool position from old tool position and grab new tool
 
-	struct point prevTool,nextTool;
+	struct point prevToolP,nextToolP;
 	struct point p1, p2;
 
-	prevTool.z = TOOL_HEIGHT;
-	nextTool.z = TOOL_HEIGHT;
-	
+	prevToolP.z = TOOL_HEIGHT;
+	nextToolP.z = TOOL_HEIGHT;
+
 	if (nextTool == CLEAR)
 	{
-		nextTool.x = TOOLCLEARX;
-		nextTool.y = TOOLCLEARY;
+		nextToolP.x = TOOLCLEARX;
+		nextToolP.y = TOOLCLEARY;
 	}
 	else if (nextTool == BLUNT)
 	{
-		nextTool.x = TOOLBLUNTX;
-		nextTool.y = TOOLBLUNTY;
+		nextToolP.x = TOOLBLUNTX;
+		nextToolP.y = TOOLBLUNTY;
 	}
 	else if (nextTool == FINE)
 	{
-		nextTool.x = TOOLFINEX;
-		nextTool.y = TOOLFINEY;
+		nextToolP.x = TOOLFINEX;
+		nextToolP.y = TOOLFINEY;
 	}
 	else if (nextTool == RAKE)
 	{
-		nextTool.x = TOOLRAKEX;
-		nextTool.y = TOOLRAKEY;
+		nextToolP.x = TOOLRAKEX;
+		nextToolP.y = TOOLRAKEY;
 	}
 
 	if (prevTool != NOTOOL)
 	{
 		if (prevTool == CLEAR)
 		{
-			prevTool.x = TOOLCLEARX;
-			prevTool.y = TOOLCLEARY;
+			prevToolP.x = TOOLCLEARX;
+			prevToolP.y = TOOLCLEARY;
 
 		}
 		else if (prevTool == BLUNT)
 		{
-			prevTool.x = TOOLBLUNTX;
-			prevTool.y = TOOLBLUNTY;
+			prevToolP.x = TOOLBLUNTX;
+			prevToolP.y = TOOLBLUNTY;
 
 		}
 		else if (prevTool == FINE)
 		{
-			prevTool.x = TOOLFINEX;
-			prevTool.y = TOOLFINEY;
+			prevToolP.x = TOOLFINEX;
+			prevToolP.y = TOOLFINEY;
 		}
 		else if (prevTool == RAKE)
 		{
-			prevTool.x = TOOLRAKEX;
-			prevTool.y = TOOLRAKEY;
+			prevToolP.x = TOOLRAKEX;
+			prevToolP.y = TOOLRAKEY;
 		}
 	}
 
@@ -106,17 +107,17 @@ void swapTool(struct point prev, struct point next, char prevTool, char nextTool
 	p2 = prev;
 	p2.z = MOVE_HEIGHT;
 	move(p1,p2,1,uart_port);
-	if (prev->tool != NOTOOL)
+	if (prevTool != NOTOOL)
 	{
 		//go to previous tool position in toolbed, pass in prev for previous position
 		//and prevToolLine for new x and y, keep heights the same
 		printf("move to prev tool x y\n");
-		p1 = prevTool;
+		p1 = prevToolP;
 		p1.z = MOVE_HEIGHT;
 		move(p2,p1,1,uart_port);
 		//lower height to prepare for detachment
 		printf("go down\n");
-		p2 = prevTool;
+		p2 = prevToolP;
 		move(p1,p2,1,uart_port);
 		//release electromagnet
 		printf("release\n");
@@ -128,22 +129,22 @@ void swapTool(struct point prev, struct point next, char prevTool, char nextTool
 		move(p2,p1,0,uart_port);
 		//move to new tool
 		printf("go to new tool\n");
-		p2 = nextTool;
+		p2 = nextToolP;
 		p2.z = MOVE_HEIGHT;
 		move(p1,p2,0,uart_port);
 	}
 	else
 	{
 		printf("go to new tool\n");
-		p1 = nextTool;
+		p1 = nextToolP;
 		p1.z = MOVE_HEIGHT;
 		move(p2,p1,0,uart_port);
 	}
 	//lower tool
 	printf("lower\n");
-	p1 = nextTool;
+	p1 = nextToolP;
 	p1.z = MOVE_HEIGHT;
-	p2 = nextTool;
+	p2 = nextToolP;
 	move(p1,p2,0,uart_port);
 	//turn on electromagnet
 	printf("energize\n");

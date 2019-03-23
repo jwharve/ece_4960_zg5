@@ -1,6 +1,8 @@
 #ifndef UTIL_H
 #define UTIL_H
+
 #include "def.h"
+#include "move.h"
 
 extern int zero_step;
 
