@@ -10,11 +10,10 @@ int main(int argc, char * argv[])
 	struct gLine line[2];
 	FILE * fptr;
 	unsigned long num = 0;
-//	float z[2];
-	int readSuccess;
 	int uart_port;
 	char filename[FILE_NAME_LEN];
 	filename[0] = 0;
+	struct point p1, p2, p1u, p2u;
 
 
 	wiringPiSetup();
@@ -29,6 +28,10 @@ int main(int argc, char * argv[])
 		strcat(filename,argv[1]);
 		fptr = fopen(filename,"rb");
 	}
+	if (fptr == NULL)
+	{
+		printf("Failed to open gcode file.\n");
+	}
 	uart_port = serialOpen("/dev/ttyS0",9600);
 
 	line[0].moveType = MOVE;
@@ -36,23 +39,30 @@ int main(int argc, char * argv[])
 	line[0].x = 0;
 	line[0].y = 0;
 	line[0].theta = 0;
-//	z[0] = DRAW_HEIGHT;
 
 	initGlobal();
 
-//	printPacket(calcStep(0,0,0,0,0));
-
-//	return 0;
-
-	// NOTE: num+1 is the current line
+	
+	// ZEROING PROCESS SHOULD END UP AT DRAW_HEIGHT
+	
+	// NOTE: num+1 is the next line
 	while (!feof(fptr))
 	{
-		readSuccess = readLine(fptr,line + (num+1) % 2);
-		if (readSuccess != 0)
+		if(readLine(fptr,line + (num+1) % 2) != 0)
 		{
 			printf("line didnt read correctly\n");
 			exit(0);
 		}
+		
+		p1.x = (line+num%2)->x;
+		p1.y = (line+num%2)->y;
+		p1.z = DRAW_HEIGHT;
+		p1.theta = (line+num%2)->theta;
+		
+		p2.x = (line+(num+1)%2)->x;
+		p2.y = (line+(num+1)%2)->y;
+		p2.z = DRAW_HEIGHT;
+		p2.theta = (line+(num+1)%2)->theta;
 
 		// Check for tool swap
 		if (line[num%2].tool != line[(num+1)%2].tool)
@@ -62,18 +72,25 @@ int main(int argc, char * argv[])
 				printf("Error in gcode file with move type.\n");
 				exit(0);
 			}
-			swapTool(line+num%2,line+(num+1)%2,uart_port,DRAW_HEIGHT);
+			
+			swapTool(p1,p2,(line+num%2)->tool,(line+(num+1)%2)->tool,uart_port);
 		}
 
 		if (line[(num+1)%2].moveType == DRAW)
 		{
-			move(line+num%2, line+(num+1)%2, DRAW_HEIGHT, DRAW_HEIGHT, 1, uart_port);
+			// DRAW
+			move(p1, p2, 1, uart_port);
 		}
 		else
 		{
-			move(line+num%2, line+num%2, DRAW_HEIGHT, MOVE_HEIGHT, 1, uart_port);
-			move(line+num%2, line+(num+1)%2, MOVE_HEIGHT, MOVE_HEIGHT, 1, uart_port);
-			move(line+(num+1)%2, line+(num+1)%2, MOVE_HEIGHT, DRAW_HEIGHT, 1, uart_port);
+			// MOVE
+			p1u = p1;
+			p1u.z = MOVE_HEIGHT;
+			p2u = p2;
+			p2u.z = MOVE_HEIGHT;
+			move(p1, p1u, 1, uart_port);
+			move(p1u, p2u, 1, uart_port);
+			move(p2u, p2, 1, uart_port);
 		}
 
 		num++;

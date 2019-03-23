@@ -17,6 +17,7 @@
 
 #define DRAW_HEIGHT 4 /* height in inches for drawing */
 #define MOVE_HEIGHT 5 /* height in inches for moving */
+#define TOOL_HEIGHT 4 /* height in inches for tools */
 
 #define DIST_WEIGHT 25 /* scale factor for 1 inch distance to number of steps */
 #define ANGLE_WEIGHT 1 /* scale factor for 1 degree rotation to number of steps */

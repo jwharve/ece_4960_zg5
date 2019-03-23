@@ -1,10 +1,5 @@
 #include "util.h"
 
-void printPacket(struct packet p)
-{
-	printf("S0 = %5d\tS1 = %5d\tS2 = %5d\tR = %5d\tE  =     %d\n", p.S0, p.S1, p.S2, p.R, p.E);
-}
-
 void initGlobal(void)
 {
 	h0.x = 0;
@@ -39,23 +34,7 @@ void initGlobal(void)
 	zero_step = dist2steps(distance(addP(zero,h0),post0));
 }
 
-struct point addP(struct point one, struct point two)
-{
-	struct point ret;
-	ret.x = one.x + two.x;
-	ret.y = one.y + two.y;
-	ret.z = one.z + two.z;
-	return ret;
-}
-
-float distance(struct point one, struct point two)
-{
-	float ret;
-	ret = sqrt(pow(two.x-one.x,2) + pow(two.y-one.y,2) + pow(two.z-one.z,2));
-	return ret;
-}
-
-int readLine(FILE * fptr, struct gLine * curr)
+int readLine(FILE * fptr, struct gLine * next)
 {
 	size_t lineLen = 0;
 	char * line = NULL;
@@ -69,7 +48,7 @@ int readLine(FILE * fptr, struct gLine * curr)
 
 	if (readSuccess != -1)
 	{
-		sscanf(line, "%c %c %s %s %f", &(curr->moveType), &(curr->tool), xString, yString, &(curr->theta));
+		sscanf(line, "%c %c %s %s %f", &(next->moveType), &(next->tool), xString, yString, &(next->theta));
 		//printf("xString - %s ... yString %s\n",xString,yString);
 		x += (float)(xString[1]-'0')*1;
 		x += (float)(xString[2]-'0')/10;
@@ -95,78 +74,17 @@ int readLine(FILE * fptr, struct gLine * curr)
 			y += (float)(yString[0]-'0')*10;
 		}
 
-		curr->x = x;
-		curr->y = y;
+		next->x = x;
+		next->y = y;
 	}
 	else
 	{
 		return -1;
 	}
 
-	printf("READ - %c %c %f %f %f\n",curr->moveType,curr->tool,x,y,curr->theta);
+	printf("READ - %c %c %f %f %f\n",next->moveType,next->tool,x,y,next->theta);
 	return 0;
 
-}
-
-float * interp(float one, float two, unsigned long num)
-{
-
-	float * pointsArr;
-
-	pointsArr = (float *)malloc(sizeof(float)*num);
-	if (pointsArr == NULL)
-	{
-		printf("Couldn't allocate interp.\n");
-		exit(0);
-	}
-
-	float increment;
-	int i;
-
-
-	if (fabsf(two - one) < SMALL)
-	{
-		for (i = 0; i < num; i++)
-		{
-			pointsArr[i] = one;
-		}
-
-		return pointsArr;
-	}
-
-	pointsArr[num-1]=two;
-
-	increment = (two-one)/num;
-	pointsArr[0] = one+increment;
-	//printf("FIRST - %f\n",pointsArr[0]);
-	for (i= 1;i<num-1;i++)
-	{
-		pointsArr[i] = pointsArr[i-1]+increment;
-		//printf("%f\n",pointsArr[i]);
-	}
-
-	return pointsArr;
-}
-
-int dist2steps(float dist)
-{
-
-	//circum needs to be measures
-	int steps;
-
-	steps = dist/CIRC * 200;
-	return steps;
-}
-
-int rot2steps(float rot)
-{
-
-
-	int steps;
-
-	steps = (int)(rot * ANGLE_TO_STEPS);
-
-	return steps;
 }
 
 void sendPacket(struct packet p, int uart_port)
@@ -180,4 +98,9 @@ void sendPacket(struct packet p, int uart_port)
 	{
 		serialPutchar(uart_port, rover[i]);
 	}
+}
+
+void printPacket(struct packet p)
+{
+	printf("S0 = %5d\tS1 = %5d\tS2 = %5d\tR = %5d\tE  =     %d\n", p.S0, p.S1, p.S2, p.R, p.E);
 }

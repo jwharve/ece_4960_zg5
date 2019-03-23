@@ -3,16 +3,22 @@
 
 #include "def.h"
 
-int dist2steps(float dist);
+void move(struct point prev, struct point next, char E, int uart_port);
 
-int rot2steps(float rot);
+void swapTool(struct point prev, struct point next, char prevTool, char nextTool, int uart_port);
+
+int numSteps(struct point prev, struct point next);
 
 struct packet calcStep(float x, float y, float z, float theta, char E);
 
-void swapTool(struct gLine * prev, struct gLine * curr, int uart_port, float z_curr);
+int rot2steps(float rot);
 
-void move(struct gLine * prev, struct gLine * curr, float prev_z, float curr_z, unsigned char E, int uart_port);
+int dist2steps(float dist);
 
-int numSteps(struct gLine prev, struct gLine curr, int prev_z, int curr_z);
+float * interp(float one, float two, unsigned long num);
+
+struct point addP(struct point one, struct point two);
+
+float distance(struct point one, struct point two);
 
 #endif
