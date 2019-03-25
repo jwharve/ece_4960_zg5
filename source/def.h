@@ -15,8 +15,8 @@
 #define RAKE '4' /* tool type */
 #define NOTOOL '5' /* id for no tool */
 
-#define DRAW_HEIGHT 4 /* height in inches for drawing */
-#define MOVE_HEIGHT 5 /* height in inches for moving */
+#define DRAW_HEIGHT 2.5 /* height in inches for drawing */
+#define MOVE_HEIGHT 4 /* height in inches for moving */
 #define TOOL_HEIGHT 4 /* height in inches for tools */
 
 #define DIST_WEIGHT 25 /* scale factor for 1 inch distance to number of steps */
@@ -39,7 +39,7 @@
 #define POST_HEIGHT 15 /* Height of hole on post */
 #define POST_RADIUS (18.33333333-5/8) /* Radius of holes on posts */
 
-#define CIRC 1 /* circumference of the spool */
+#define CIRC 1.4 /* circumference of the spool */
 
 #define DTR 0.01745329251   /* degrees to radians (pi/180) */
 

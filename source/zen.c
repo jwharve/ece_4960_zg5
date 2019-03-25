@@ -9,12 +9,12 @@ int main(int argc, char * argv[])
 {
 	struct gLine line[2];
 	FILE * fptr;
+	FILE * locF;
 	unsigned long num = 0;
 	int uart_port;
 	char filename[FILE_NAME_LEN];
 	filename[0] = 0;
 	struct point p1, p2, p1u, p2u;
-
 
 	wiringPiSetup();
 
@@ -34,23 +34,27 @@ int main(int argc, char * argv[])
 	}
 	uart_port = serialOpen("/dev/ttyS0",9600);
 
+	locF = fopen("current.loc","r");
+
+	fscanf(locF,"%f %f %c",line[0].x,line[0].y,line[0].tool);
 	line[0].moveType = MOVE;
-	line[0].tool = NOTOOL;
-	line[0].x = 0;
-	line[0].y = 0;
 	line[0].theta = 0;
+	fclose(locF);
 
 	initGlobal();
 
-	
+
 	// ZEROING PROCESS SHOULD END UP AT DRAW_HEIGHT
-	
+
 	// NOTE: num+1 is the next line
 	while (!feof(fptr))
 	{
 		if(readLine(fptr,line + (num+1) % 2) != 0)
 		{
-			printf("line didnt read correctly\n");
+			locF = fopen("current.loc");
+			fprintf(locF,"%f %f %c\n", line[num%2].x, line[num%2].y, line[num%2].tool);
+			fclose(locF);
+			printf("done\n");
 			exit(0);
 		}
 		

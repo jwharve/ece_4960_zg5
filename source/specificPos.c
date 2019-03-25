@@ -16,9 +16,9 @@ struct gLine/* packed */
 
 int main(int argc, char * argv[])
 {
-	
+
 	struct gLine line[2];
-	
+
 	struct packet zero = calcStep(0, 0, 0, 0, 0);
 	
 	uart_port = serialOpen("/dev/ttyS0",9600);
