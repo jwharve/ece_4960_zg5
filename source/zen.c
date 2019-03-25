@@ -51,7 +51,7 @@ int main(int argc, char * argv[])
 	{
 		if(readLine(fptr,line + (num+1) % 2) != 0)
 		{
-			locF = fopen("current.loc");
+			locF = fopen("current.loc","w");
 			fprintf(locF,"%f %f %c\n", line[num%2].x, line[num%2].y, line[num%2].tool);
 			fclose(locF);
 			printf("done\n");
