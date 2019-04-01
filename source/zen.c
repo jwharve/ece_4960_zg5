@@ -16,6 +16,9 @@ int main(int argc, char * argv[])
 	filename[0] = 0;
 	struct point p1, p2, p1u, p2u;
 
+	char * locLine = NULL;
+	size_t sizeLine;
+
 	wiringPiSetup();
 
 	if (argc == 1)
@@ -36,10 +39,13 @@ int main(int argc, char * argv[])
 
 	locF = fopen("current.loc","r");
 
-	fscanf(locF,"%f %f %c",line[0].x,line[0].y,line[0].tool);
+	getline(&locLine,&sizeLine,locF);
+
+	sscanf(locLine,"%f %f %c",&(line[0].x),&(line[0].y),&(line[0].tool));
 	line[0].moveType = MOVE;
 	line[0].theta = 0;
 	fclose(locF);
+	free(locLine);
 
 	initGlobal();
 

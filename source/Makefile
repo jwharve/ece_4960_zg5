@@ -12,6 +12,9 @@ EXE = $(SRCS:.c=)
 
 all: $(TARGET)
 
+sPos: specificPos.c $(OBJS) $(DEPS)
+	$(CC) -o $@ $< $(OBJS) $(CFLAGS) $(LIBS)
+
 $(TARGET): $(TARGET).c $(OBJS) $(DEPS)
 	$(CC) -o $(TARGET) $(TARGET).c $(OBJS) $(CFLAGS) $(LIBS)
 
