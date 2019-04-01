@@ -12,6 +12,7 @@ int main(int argc, char * argv[])
 	struct packet zero = calcStep(0, 0, 0, 0, 0);
 	FILE * locF;
 	char prevTool;
+	int uart_port;
 
 	float nextX, nextY;
 
@@ -26,7 +27,7 @@ int main(int argc, char * argv[])
 	// Initalize P1
 	locF = fopen("current.loc","r");
 	getline(&locLine,&sizeLine,locF);
-	sscanf(locLine,"%f %f %c",&(p1.x),&(p1.y),&(p1.tool));
+	sscanf(locLine,"%f %f %c",&(p1.x),&(p1.y),&(prevTool));
 	p1.z = DRAW_HEIGHT;
 	fclose(locF);
 	free(locLine);
