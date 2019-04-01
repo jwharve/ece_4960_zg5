@@ -18,6 +18,7 @@ int main(int argc, char * argv[])
 
 	char * locLine = NULL;
 	size_t sizeLine;
+	float prevZ;
 
 	wiringPiSetup();
 
@@ -41,12 +42,23 @@ int main(int argc, char * argv[])
 
 	getline(&locLine,&sizeLine,locF);
 
-	sscanf(locLine,"%f %f %c",&(line[0].x),&(line[0].y),&(line[0].tool));
+	// x y z theta tool
+	sscanf(locLine,"%f %f %f %f %c",&(line[0].x),&(line[0].y),&prevZ,&(line[0].theta),&(line[0].tool));
 	line[0].moveType = MOVE;
-	line[0].theta = 0;
 	fclose(locF);
 	free(locLine);
 
+	if (prevZ != DRAW_HEIGHT)
+	{
+		p1.x = line[0].x;
+		p1.y = line[0].y;
+		p1.z = prevZ;
+		p1.theta = line[0].theta;
+		p2 = p1;
+		p2.z = DRAW_HEIGHT;
+		move(p1,p2,1,uart_port);
+	}
+	
 	initGlobal();
 
 
@@ -58,7 +70,7 @@ int main(int argc, char * argv[])
 		if(readLine(fptr,line + (num+1) % 2) != 0)
 		{
 			locF = fopen("current.loc","w");
-			fprintf(locF,"%f %f %c\n", line[num%2].x, line[num%2].y, line[num%2].tool);
+			fprintf(locF,"%f %f %f %f %c",(line[0].x),(line[0].y),DRAW_HEIGHT,(line[0].theta),(line[0].tool));
 			fclose(locF);
 			printf("done\n");
 			exit(0);
