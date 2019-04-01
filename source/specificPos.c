@@ -27,19 +27,23 @@ int main(int argc, char * argv[])
 	// Initalize P1
 	locF = fopen("current.loc","r");
 	getline(&locLine,&sizeLine,locF);
-	sscanf(locLine,"%f %f %c",&(p1.x),&(p1.y),&(prevTool));
-	p1.z = DRAW_HEIGHT;
+
+	sscanf(locLine,"%f %f %f %f %c",&(p1.x),&(p1.y),&(p1.z),&(p1.theta),&(p1.tool));
+	
+
 	fclose(locF);
 	free(locLine);
 
 	// Initialize P2
 	p2.x = atof(argv[1]);
 	p2.y = atof(argv[2]);
-	p2.z = p1.z;
-	p2.theta = atof(argv[3]);
+	p2.z = atof(argv[3])
+
+	p2.theta = atof(argv[4]);
+	emag = atof(argv[5])
 	
 	// Move
-	move(p1,p2,1,uart_port);
+	move(p1,p2,emag,uart_port);
 
 	// Write out position
 	locF = fopen("current.loc","w");
