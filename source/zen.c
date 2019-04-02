@@ -70,7 +70,7 @@ int main(int argc, char * argv[])
 		if(readLine(fptr,line + (num+1) % 2) != 0)
 		{
 			locF = fopen("current.loc","w");
-			fprintf(locF,"%f %f %f %f %c",(line[0].x),(line[0].y),DRAW_HEIGHT,(line[0].theta),(line[0].tool));
+			fprintf(locF,"%f %f %f %f %c",(line[0].x),(line[0].y),DRAW_HEIGHT,(line[(num%2)].theta),(line[(num%2)].tool));
 			fclose(locF);
 			printf("done\n");
 			exit(0);

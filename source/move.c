@@ -181,11 +181,11 @@ int numSteps(struct point prev, struct point next)
 	}
 	else if (dist*DIST_WEIGHT > angle*ANGLE_WEIGHT)
 	{
-		return (int) dist*DIST_WEIGHT;
+		return (int) (dist*DIST_WEIGHT);
 	}
 	else
 	{
-		return (int) angle*ANGLE_WEIGHT;
+		return (int) (angle*ANGLE_WEIGHT);
 	}
 }
 
@@ -228,6 +228,13 @@ float * interp(float one, float two, unsigned long num)
 	float * pointsArr;
 	float increment;
 	int i;
+
+	if (num == 0)
+	{
+		pointsArr = (float *)malloc(sizeof(float));
+		pointsArr[0] = one;
+		return pointsArr;
+	}
 
 	pointsArr = (float *)malloc(sizeof(float)*num);
 	if (pointsArr == NULL)
