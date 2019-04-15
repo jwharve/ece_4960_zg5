@@ -2,11 +2,22 @@
 #include "move.h"
 #include "def.h"
 #include "string.h"
+#include <signal.h>
 
 int zero_step;
+char state = RUN;
+
+
+void handle_SIGINT (int unused)
+{
+	state = EXIT;
+}
+
 
 int main(int argc, char * argv[])
 {
+	signal(SIGINT, handle_SIGINT);
+
 	struct gLine line[2];
 	FILE * fptr;
 	FILE * locF;
@@ -21,6 +32,7 @@ int main(int argc, char * argv[])
 	float prevZ;
 
 	wiringPiSetup();
+	initGlobal();
 
 	if (argc == 1)
 	{
@@ -35,6 +47,7 @@ int main(int argc, char * argv[])
 	if (fptr == NULL)
 	{
 		printf("Failed to open gcode file.\n");
+		return 0;
 	}
 	uart_port = serialOpen("/dev/ttyS0",9600);
 
@@ -58,8 +71,7 @@ int main(int argc, char * argv[])
 		p2.z = DRAW_HEIGHT;
 		move(p1,p2,1,uart_port);
 	}
-	
-	initGlobal();
+
 
 
 	// ZEROING PROCESS SHOULD END UP AT DRAW_HEIGHT
@@ -70,7 +82,7 @@ int main(int argc, char * argv[])
 		if(readLine(fptr,line + (num+1) % 2) != 0)
 		{
 			locF = fopen("current.loc","w");
-			fprintf(locF,"%f %f %f %f %c",(line[0].x),(line[0].y),DRAW_HEIGHT,(line[(num%2)].theta),(line[(num%2)].tool));
+			fprintf(locF,"%f %f %f %f %c",(line[num%2].x),(line[num%2].y),DRAW_HEIGHT,(line[(num%2)].theta),(line[(num%2)].tool));
 			fclose(locF);
 			printf("done\n");
 			exit(0);

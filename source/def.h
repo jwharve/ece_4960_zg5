@@ -51,6 +51,10 @@
 
 #define ANGLE_TO_STEPS (3800/360)
 
+
+#define RUN 0
+#define EXIT 1
+
 struct gLine/* packed */
 {
 	char moveType;

@@ -11,6 +11,8 @@ void move(struct point prev, struct point next, char E, int uart_port)
 	int i;
 	struct packet current;
 
+	FILE * locF;
+
 	printf("PREV\n");
 	printf("x = %f, y = %f, z = %f, theta = %f\n", prev.x, prev.y, prev.z, prev.theta);
 	printf("NEXT\n");
@@ -29,12 +31,19 @@ void move(struct point prev, struct point next, char E, int uart_port)
 	z = interp(prev.z,next.z,numPoints);
 	theta = interp(prev.theta,next.theta,numPoints);
 
-	for (i = 0; i < numPoints; i++)
+	for (i = 0; i < numPoints && state == RUN; i++)
 	{
 		current = calcStep(x[i], y[i], z[i], theta[i], E);
 		printPacket(current);
 		sendPacket(current, uart_port);
 		delay(SEND_DELAY);
+	}
+
+	if (state == EXIT)
+	{
+		locF = fopen("current.loc","w");
+		fprintf(locF,"%f %f %f %f %c",x[i],y[i],z[i],theta[i],NOTOOL);
+		exit(0);
 	}
 
 	free(x); free(y); free(z); free(theta);
@@ -80,13 +89,11 @@ void swapTool(struct point prev, struct point next, char prevTool, char nextTool
 		{
 			prevToolP.x = TOOLCLEARX;
 			prevToolP.y = TOOLCLEARY;
-
 		}
 		else if (prevTool == BLUNT)
 		{
 			prevToolP.x = TOOLBLUNTX;
 			prevToolP.y = TOOLBLUNTY;
-
 		}
 		else if (prevTool == FINE)
 		{
