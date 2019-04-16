@@ -17,7 +17,8 @@
 
 #define DRAW_HEIGHT 2.5 /* height in inches for drawing */
 #define MOVE_HEIGHT 5. /* height in inches for moving */
-#define TOOL_HEIGHT 1.6 /* height in inches for tools */
+#define TOOL_HEIGHT 1.5 /* height in inches for other tools */
+#define CLEAR_TOOL_HEIGHT 1.6 /* height in inches for clear tool */
 
 #define DIST_WEIGHT 25. /* scale factor for 1 inch distance to number of steps */
 #define ANGLE_WEIGHT 1.5 /* scale factor for 1 degree rotation to number of steps */
@@ -49,7 +50,7 @@
 
 #define FILE_NAME_LEN 100
 
-#define ANGLE_TO_STEPS ((float)5025.0/360.)
+#define ANGLE_TO_STEPS ((float)5000.0/360.)
 
 #define FINE_DROP 0.2
 
@@ -57,7 +58,8 @@
 #define EXIT 1
 
 #define SLOPE_X (-0.2/6)
-#define SLOPE_Y (0.1/6)
+#define SLOPE_Y (0.15/6)
+#define SLOPE_Y_ABS (0.17/6)
 
 struct gLine/* packed */
 {

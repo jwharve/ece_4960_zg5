@@ -59,8 +59,16 @@ void swapTool(struct point prev, struct point next, char prevTool, char nextTool
 	struct point prevToolP,nextToolP;
 	struct point p1, p2;
 
-	prevToolP.z = TOOL_HEIGHT;
-	nextToolP.z = TOOL_HEIGHT;
+	if (nextTool != CLEAR)
+	{
+		prevToolP.z = TOOL_HEIGHT;
+		nextToolP.z = TOOL_HEIGHT;
+	}
+	else
+	{
+		prevToolP.z = CLEAR_TOOL_HEIGHT;
+		nextToolP.z = CLEAR_TOOL_HEIGHT;
+	}
 
 	if (nextTool == CLEAR)
 	{
@@ -203,7 +211,7 @@ struct packet calcStep(float x, float y, float z, float theta, char E)
 
 	float nz;
 
-	nz = SLOPE_X*x + SLOPE_Y*y + z;
+	nz = SLOPE_X*x + SLOPE_Y*y + SLOPE_Y_ABS*fabsf(y) + z;
 
 	draw.x = x;
 	draw.y = y;
