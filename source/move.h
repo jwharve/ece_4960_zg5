@@ -3,6 +3,10 @@
 
 #include "def.h"
 
+extern char state;
+
+extern struct point h0, h1, h2, post0, post1, post2;
+
 void move(struct point prev, struct point next, char E, int uart_port);
 
 void swapTool(struct point prev, struct point next, char prevTool, char nextTool, int uart_port);

@@ -11,6 +11,8 @@ void move(struct point prev, struct point next, char E, int uart_port)
 	int i;
 	struct packet current;
 
+	FILE * locF;
+
 	printf("PREV\n");
 	printf("x = %f, y = %f, z = %f, theta = %f\n", prev.x, prev.y, prev.z, prev.theta);
 	printf("NEXT\n");
@@ -29,7 +31,7 @@ void move(struct point prev, struct point next, char E, int uart_port)
 	z = interp(prev.z,next.z,numPoints);
 	theta = interp(prev.theta,next.theta,numPoints);
 
-	for (i = 0; i < numPoints; i++)
+	for (i = 0; i < numPoints && state == RUN; i++)
 	{
 		current = calcStep(x[i], y[i], z[i], theta[i], E);
 		printPacket(current);
@@ -37,12 +39,19 @@ void move(struct point prev, struct point next, char E, int uart_port)
 		delay(SEND_DELAY);
 	}
 
+	if (state == EXIT)
+	{
+		locF = fopen("current.loc","w");
+		fprintf(locF,"%f %f %f %f %c",x[i],y[i],z[i],theta[i],NOTOOL);
+		exit(0);
+	}
+
 	free(x); free(y); free(z); free(theta);
 }
 
 void swapTool(struct point prev, struct point next, char prevTool, char nextTool, int uart_port)
 {
-	return;
+//	return;
 	//grab tool initially
 	//go to prev tool position and release tool
 	//go to new tool position from old tool position and grab new tool
@@ -80,13 +89,11 @@ void swapTool(struct point prev, struct point next, char prevTool, char nextTool
 		{
 			prevToolP.x = TOOLCLEARX;
 			prevToolP.y = TOOLCLEARY;
-
 		}
 		else if (prevTool == BLUNT)
 		{
 			prevToolP.x = TOOLBLUNTX;
 			prevToolP.y = TOOLBLUNTY;
-
 		}
 		else if (prevTool == FINE)
 		{
@@ -181,11 +188,11 @@ int numSteps(struct point prev, struct point next)
 	}
 	else if (dist*DIST_WEIGHT > angle*ANGLE_WEIGHT)
 	{
-		return (int) dist*DIST_WEIGHT;
+		return (int) (dist*DIST_WEIGHT);
 	}
 	else
 	{
-		return (int) angle*ANGLE_WEIGHT;
+		return (int) (angle*ANGLE_WEIGHT);
 	}
 }
 
@@ -193,9 +200,14 @@ struct packet calcStep(float x, float y, float z, float theta, char E)
 {
 	struct point draw;
 	struct packet ret;
+
+	float nz;
+
+	nz = SLOPE_X*x + SLOPE_Y*y + z;
+
 	draw.x = x;
 	draw.y = y;
-	draw.z = z;
+	draw.z = nz;
 
 	ret.S0 = dist2steps(distance(addP(draw,h0),post0)) - zero_step;
 	ret.S1 = dist2steps(distance(addP(draw,h1),post1)) - zero_step;
@@ -210,7 +222,7 @@ int dist2steps(float dist)
 {
 	int steps;
 
-	steps = dist/CIRC * 200;
+	steps = (int)(dist/CIRC * 200);
 	return steps;
 }
 
@@ -218,7 +230,7 @@ int rot2steps(float rot)
 {
 	int steps;
 
-	steps = (int)(rot * ANGLE_TO_STEPS);
+	steps = (int)((float)rot * ANGLE_TO_STEPS);
 
 	return steps;
 }
@@ -228,6 +240,13 @@ float * interp(float one, float two, unsigned long num)
 	float * pointsArr;
 	float increment;
 	int i;
+
+	if (num == 0)
+	{
+		pointsArr = (float *)malloc(sizeof(float));
+		pointsArr[0] = one;
+		return pointsArr;
+	}
 
 	pointsArr = (float *)malloc(sizeof(float)*num);
 	if (pointsArr == NULL)
@@ -250,7 +269,7 @@ float * interp(float one, float two, unsigned long num)
 
 	increment = (two-one)/num;
 	pointsArr[0] = one+increment;
-	for (i= 1;i<num-1;i++)
+	for (i= 1;i<num;i++)
 	{
 		pointsArr[i] = pointsArr[i-1]+increment;
 	}
