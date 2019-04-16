@@ -59,36 +59,32 @@ void swapTool(struct point prev, struct point next, char prevTool, char nextTool
 	struct point prevToolP,nextToolP;
 	struct point p1, p2;
 
-	if (nextTool != CLEAR)
-	{
-		prevToolP.z = TOOL_HEIGHT;
-		nextToolP.z = TOOL_HEIGHT;
-	}
-	else
-	{
-		prevToolP.z = CLEAR_TOOL_HEIGHT;
-		nextToolP.z = CLEAR_TOOL_HEIGHT;
-	}
+	prevToolP.theta = prev.theta;
+	nextToolP.theta = next.theta;
 
 	if (nextTool == CLEAR)
 	{
 		nextToolP.x = TOOLCLEARX;
 		nextToolP.y = TOOLCLEARY;
+		nextToolP.z = CLEAR_TOOL_HEIGHT;
 	}
 	else if (nextTool == BLUNT)
 	{
 		nextToolP.x = TOOLBLUNTX;
 		nextToolP.y = TOOLBLUNTY;
+		nextToolP.z = RAKE_BLUNT_HEIGHT;
 	}
 	else if (nextTool == FINE)
 	{
 		nextToolP.x = TOOLFINEX;
 		nextToolP.y = TOOLFINEY;
+		nextToolP.z = FINE_HEIGHT;
 	}
 	else if (nextTool == RAKE)
 	{
 		nextToolP.x = TOOLRAKEX;
 		nextToolP.y = TOOLRAKEY;
+		nextToolP.z = RAKE_BLUNT_HEIGHT;
 	}
 
 	if (prevTool != NOTOOL)
@@ -97,21 +93,25 @@ void swapTool(struct point prev, struct point next, char prevTool, char nextTool
 		{
 			prevToolP.x = TOOLCLEARX;
 			prevToolP.y = TOOLCLEARY;
+			prevToolP.z = CLEAR_TOOL_HEIGHT;
 		}
 		else if (prevTool == BLUNT)
 		{
 			prevToolP.x = TOOLBLUNTX;
 			prevToolP.y = TOOLBLUNTY;
+			prevToolP.z = RAKE_BLUNT_HEIGHT;
 		}
 		else if (prevTool == FINE)
 		{
 			prevToolP.x = TOOLFINEX;
 			prevToolP.y = TOOLFINEY;
+			prevToolP.z = FINE_HEIGHT;
 		}
 		else if (prevTool == RAKE)
 		{
 			prevToolP.x = TOOLRAKEX;
 			prevToolP.y = TOOLRAKEY;
+			prevToolP.z = RAKE_BLUNT_HEIGHT;
 		}
 	}
 

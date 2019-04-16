@@ -19,6 +19,9 @@
 #define MOVE_HEIGHT 5. /* height in inches for moving */
 #define TOOL_HEIGHT 1.5 /* height in inches for other tools */
 #define CLEAR_TOOL_HEIGHT 1.6 /* height in inches for clear tool */
+#define FINE_HEIGHT 1.8
+#define RAKE_BLUNT_HEIGHT 1.5
+
 
 #define DIST_WEIGHT 25. /* scale factor for 1 inch distance to number of steps */
 #define ANGLE_WEIGHT 1.5 /* scale factor for 1 degree rotation to number of steps */
@@ -26,12 +29,12 @@
 // Tool Locations
 #define TOOLCLEARX 0.
 #define TOOLCLEARY 10.5
-#define TOOLBLUNTX -2.5
-#define TOOLBLUNTY -12.
-#define TOOLFINEX -2.5
-#define TOOLFINEY -9.5
-#define TOOLRAKEX 0.75
-#define TOOLRAKEY -10.5
+#define TOOLBLUNTX -1.5
+#define TOOLBLUNTY -9.5
+#define TOOLFINEX 0.0
+#define TOOLFINEY -12.25
+#define TOOLRAKEX 1.25
+#define TOOLRAKEY -9.25
 
 
 #define MOUNT_RADIUS 0.5 /* Radius of holes on mount */
