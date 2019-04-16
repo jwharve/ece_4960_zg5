@@ -16,30 +16,30 @@
 #define NOTOOL '5' /* id for no tool */
 
 #define DRAW_HEIGHT 2.5 /* height in inches for drawing */
-#define MOVE_HEIGHT 4 /* height in inches for moving */
-#define TOOL_HEIGHT 4 /* height in inches for tools */
+#define MOVE_HEIGHT 5. /* height in inches for moving */
+#define TOOL_HEIGHT 1.6 /* height in inches for tools */
 
-#define DIST_WEIGHT 25 /* scale factor for 1 inch distance to number of steps */
-#define ANGLE_WEIGHT 1 /* scale factor for 1 degree rotation to number of steps */
+#define DIST_WEIGHT 25. /* scale factor for 1 inch distance to number of steps */
+#define ANGLE_WEIGHT 1.5 /* scale factor for 1 degree rotation to number of steps */
 
 // Tool Locations
-#define TOOLCLEARX 1
-#define TOOLCLEARY 1
-#define TOOLBLUNTX 2
-#define TOOLBLUNTY 2
-#define TOOLFINEX 3
-#define TOOLFINEY 3
-#define TOOLRAKEX 4
-#define TOOLRAKEY 4
+#define TOOLCLEARX 0.
+#define TOOLCLEARY 10.5
+#define TOOLBLUNTX -2.5
+#define TOOLBLUNTY -12.
+#define TOOLFINEX -2.5
+#define TOOLFINEY -9.5
+#define TOOLRAKEX 0.75
+#define TOOLRAKEY -10.5
 
 
-#define MOUNT_RADIUS 0.44 /* Radius of holes on mount */
-#define MOUNT_HEIGHT (1.52+2.79) /* Height from tool tip to mount holes on mount */
-
+#define MOUNT_RADIUS 0.5 /* Radius of holes on mount */
+//#define MOUNT_HEIGHT (1.52+2.79+0.25) /* Height from tool tip to mount holes on mount */
+#define MOUNT_HEIGHT 4.7
 #define POST_HEIGHT 15 /* Height of hole on post */
-#define POST_RADIUS (18.33333333-5/8) /* Radius of holes on posts */
+#define POST_RADIUS (18.33333333-0.8) /* Radius of holes on posts */
 
-#define CIRC 1.4 /* circumference of the spool */
+#define CIRC 1.3 /* circumference of the spool */
 
 #define DTR 0.01745329251   /* degrees to radians (pi/180) */
 
@@ -49,11 +49,15 @@
 
 #define FILE_NAME_LEN 100
 
-#define ANGLE_TO_STEPS (3800/360)
+#define ANGLE_TO_STEPS ((float)5025.0/360.)
 
+#define FINE_DROP 0.2
 
 #define RUN 0
 #define EXIT 1
+
+#define SLOPE_X (-0.2/6)
+#define SLOPE_Y (0.1/6)
 
 struct gLine/* packed */
 {

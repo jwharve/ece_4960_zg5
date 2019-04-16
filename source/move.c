@@ -51,7 +51,7 @@ void move(struct point prev, struct point next, char E, int uart_port)
 
 void swapTool(struct point prev, struct point next, char prevTool, char nextTool, int uart_port)
 {
-	return;
+//	return;
 	//grab tool initially
 	//go to prev tool position and release tool
 	//go to new tool position from old tool position and grab new tool
@@ -200,9 +200,14 @@ struct packet calcStep(float x, float y, float z, float theta, char E)
 {
 	struct point draw;
 	struct packet ret;
+
+	float nz;
+
+	nz = SLOPE_X*x + SLOPE_Y*y + z;
+
 	draw.x = x;
 	draw.y = y;
-	draw.z = z;
+	draw.z = nz;
 
 	ret.S0 = dist2steps(distance(addP(draw,h0),post0)) - zero_step;
 	ret.S1 = dist2steps(distance(addP(draw,h1),post1)) - zero_step;
@@ -217,7 +222,7 @@ int dist2steps(float dist)
 {
 	int steps;
 
-	steps = dist/CIRC * 200;
+	steps = (int)(dist/CIRC * 200);
 	return steps;
 }
 
@@ -225,7 +230,7 @@ int rot2steps(float rot)
 {
 	int steps;
 
-	steps = (int)(rot * ANGLE_TO_STEPS);
+	steps = (int)((float)rot * ANGLE_TO_STEPS);
 
 	return steps;
 }
@@ -264,7 +269,7 @@ float * interp(float one, float two, unsigned long num)
 
 	increment = (two-one)/num;
 	pointsArr[0] = one+increment;
-	for (i= 1;i<num-1;i++)
+	for (i= 1;i<num;i++)
 	{
 		pointsArr[i] = pointsArr[i-1]+increment;
 	}

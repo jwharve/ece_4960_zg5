@@ -77,7 +77,7 @@ int main(int argc, char * argv[])
 	// ZEROING PROCESS SHOULD END UP AT DRAW_HEIGHT
 
 	// NOTE: num+1 is the next line
-	while (!feof(fptr))
+	while (1)
 	{
 		if(readLine(fptr,line + (num+1) % 2) != 0)
 		{
@@ -87,12 +87,17 @@ int main(int argc, char * argv[])
 			printf("done\n");
 			exit(0);
 		}
-		
+
 		p1.x = (line+num%2)->x;
 		p1.y = (line+num%2)->y;
 		p1.z = DRAW_HEIGHT;
 		p1.theta = (line+num%2)->theta;
-		
+
+		if (line[num%2].tool == FINE)
+		{
+			p1.z = p1.z-FINE_DROP;
+		}
+
 		p2.x = (line+(num+1)%2)->x;
 		p2.y = (line+(num+1)%2)->y;
 		p2.z = DRAW_HEIGHT;
@@ -106,12 +111,19 @@ int main(int argc, char * argv[])
 				printf("Error in gcode file with move type.\n");
 				exit(0);
 			}
-			
+
 			swapTool(p1,p2,(line+num%2)->tool,(line+(num+1)%2)->tool,uart_port);
+			num++;
+			continue;
 		}
 
 		if (line[(num+1)%2].moveType == DRAW)
 		{
+
+			if (line[(num+1)%2].tool == FINE)
+			{
+				p2.z = p2.z - FINE_DROP;
+			}
 			// DRAW
 			move(p1, p2, 1, uart_port);
 		}

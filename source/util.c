@@ -32,6 +32,7 @@ void initGlobal(void)
 	zero.z = DRAW_HEIGHT;
 
 	zero_step = dist2steps(distance(addP(zero,h0),post0));
+	printf("dist2steps receives: %lf\n", distance(addP(zero,h0),post0));
 }
 
 int readLine(FILE * fptr, struct gLine * next)

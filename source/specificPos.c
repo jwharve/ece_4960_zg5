@@ -4,6 +4,7 @@
 #include "string.h"
 
 int zero_step;
+char state = RUN;
 
 int main(int argc, char * argv[])
 {
@@ -28,7 +29,7 @@ int main(int argc, char * argv[])
 	wiringPiSetup();
 	initGlobal();
 	uart_port = serialOpen("/dev/ttyS0",9600);
-	
+
 	// Initalize P1
 	locF = fopen("current.loc","r");
 	getline(&locLine,&sizeLine,locF);
