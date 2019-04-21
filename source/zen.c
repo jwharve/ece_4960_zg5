@@ -81,7 +81,7 @@ int main(int argc, char * argv[])
 			fprintf(locF,"%f %f %f %f %c",(line[num%2].x),(line[num%2].y),DRAW_HEIGHT,(line[(num%2)].theta),(line[(num%2)].tool));
 			fclose(locF);
 			printf("done\n");
-			exit(0);
+			break;
 		}
 
 		p1.x = (line+num%2)->x;
@@ -137,4 +137,20 @@ int main(int argc, char * argv[])
 
 		num++;
 	}
+
+	p2u = p2;
+	p2u.z = MOVE_HEIGHT;
+	move(p2, p2u, 1, uart_port);
+
+	p1 = p2u;
+	p1.x = 0;
+	p1.y = 0;
+	p1.theta = 0;
+
+	move(p2u, p1, 1, uart_port);
+
+	locF = fopen("current.loc","w");
+	fprintf(locF,"%f %f %f %f %c",p1.x,p1.y,p1.z,p1.theta,(line[(num%2)].tool));
+	fclose(locF);
+	printf("done\n");
 }
