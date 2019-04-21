@@ -23,8 +23,6 @@ int main(int argc, char * argv[])
 	FILE * locF;
 	unsigned long num = 0;
 	int uart_port;
-	char filename[FILE_NAME_LEN];
-	filename[0] = 0;
 	struct point p1, p2, p1u, p2u;
 
 	char * locLine = NULL;
@@ -40,13 +38,11 @@ int main(int argc, char * argv[])
 	}
 	else
 	{
-		strcat(filename,"./gcode/");
-		strcat(filename,argv[1]);
-		fptr = fopen(filename,"rb");
+		fptr = fopen(argv[1],"rb");
 	}
 	if (fptr == NULL)
 	{
-		printf("Failed to open gcode file.\n");
+		printf("Failed to open %s.\n",argv[1]);
 		return 0;
 	}
 	uart_port = serialOpen("/dev/ttyS0",9600);
