@@ -55,12 +55,12 @@
 
 #define ANGLE_TO_STEPS ((float)4800.0/360.)
 
-#define FINE_DROP 0.2
+#define FINE_DROP 0.1
 
 #define RUN 0
 #define EXIT 1
 
-#define SLOPE_X (-0.2/6)
+#define SLOPE_X (-0.15/6)
 #define SLOPE_Y (0.25/6)
 #define SLOPE_Y_ABS (0.1/6)
 
