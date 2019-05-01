@@ -62,7 +62,7 @@ view(-29,45)
 handles = nan(1,4);
 d = nan(1,3);
 m = repmat(getframe,size(x_path));
-for ii = 1:numel(x_path)
+for ii = 20%1:numel(x_path)
     x = x_path(ii);
     y = y_path(ii);
     z = 2;
@@ -80,7 +80,7 @@ for ii = 1:numel(x_path)
     m(ii) = getframe(f);
     for jj = 1:4
         if ii ~= numel(x_path)
-            delete(handles(jj));
+%             delete(handles(jj));
         end
     end
 end
