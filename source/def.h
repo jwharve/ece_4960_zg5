@@ -23,7 +23,7 @@
 #define RAKE_BLUNT_HEIGHT 1.5
 
 
-#define DIST_WEIGHT 25. /* scale factor for 1 inch distance to number of steps */
+#define DIST_WEIGHT 20. /* scale factor for 1 inch distance to number of steps */
 #define ANGLE_WEIGHT 1.5 /* scale factor for 1 degree rotation to number of steps */
 
 // Tool Locations
@@ -53,16 +53,16 @@
 
 #define FILE_NAME_LEN 100
 
-#define ANGLE_TO_STEPS ((float)5000.0/360.)
+#define ANGLE_TO_STEPS ((float)4800.0/360.)
 
-#define FINE_DROP 0.2
+#define FINE_DROP 0.1
 
 #define RUN 0
 #define EXIT 1
 
-#define SLOPE_X (-0.2/6)
-#define SLOPE_Y (0.15/6)
-#define SLOPE_Y_ABS (0.17/6)
+#define SLOPE_X (-0.15/6)
+#define SLOPE_Y (0.25/6)
+#define SLOPE_Y_ABS (0.1/6)
 
 struct gLine/* packed */
 {

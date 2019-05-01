@@ -190,7 +190,7 @@ int numSteps(struct point prev, struct point next)
 
 	angle = fabsf(prev.theta - next.theta);
 
-	if (dist <= 0 && angle <= 0)
+	if ((int)(dist*DIST_WEIGHT) <= 0 && (int)(angle*ANGLE_WEIGHT) <= 0)
 	{
 		return 1;
 	}
